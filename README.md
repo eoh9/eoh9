@@ -1,5 +1,4 @@
 
-
   
 <a href="s">
   <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=eoh9&exclude_repo=dkssud8150.github.io&layout=compact&theme=tokyonight" />
@@ -9,7 +8,10 @@
 </a>
 <a href="https://github.com/ashutosh00710/github-readme-activity-graph">
     <img src="https://github-readme-activity-graph.vercel.app/graph?username=eoh9&theme=react-dark&bg_color=20232a&hide_border=true&line=58A6FF&color=58A6FF" width=94%/>
+  <img src="https://github.com/깃허브ID/깃허브ID/blob/output/github-snake-dark.svg" width="100%">
 </a>
+
+
 
 <!--
 **eoh9/eoh9** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
