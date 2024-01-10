@@ -1,9 +1,10 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=120&animation=fadeIn&section=footer&text=Welcome!&fontAlign=70)
+![header](https://capsule-render.vercel.app/api?type=waving&color=0:E34C26,10:DA5B0B,30:C6538C,75:3572A5,100:A371F7&height=100&section=header&text=Welcome!&fontSize=0" width="100%")
 
+  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:E34C26,10:DA5B0B,30:C6538C,75:3572A5,100:A371F7&height=40&section=footer&text=&fontSize=0" width="100%"/>
+
+  
 <a href="s">
   <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=eoh9&exclude_repo=dkssud8150.github.io&layout=compact&theme=tokyonight" />
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:E34C26,10:DA5B0B,30:C6538C,75:3572A5,100:A371F7&height=100&section=header&text=&fontSize=0" width="100%"/>
-  <img src="https://capsule-render.vercel.app/api?type=rect&color=0:E34C26,10:DA5B0B,30:C6538C,75:3572A5,100:A371F7&height=40&section=footer&text=&fontSize=0" width="100%"/>
 </a>
 <a href="s">
   <img src="https://github-readme-stats.vercel.app/api?username=eoh9&theme=tokyonight&show_icons=true" width="42%" />
