@@ -1,11 +1,12 @@
 ![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=120&animation=fadeIn&section=footer&text=🚗🚘🚛&fontAlign=70)
 
 <a href="s">
-  <img src="https://raw.githubusercontent.com/eoh9/github-stats-transparent/output/generated/languages.svg" width="49.2%" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=eoh9&exclude_repo=dkssud8150.github.io&layout=compact&theme=tokyonight" />
 </a>
 <a href="s">
   <img src="https://github-readme-stats.vercel.app/api?username=eoh9&theme=tokyonight&show_icons=true" width="42%" />
 </a>
+[![Ashutosh's github activity graph](https://activity-graph.herokuapp.com/graph?username=dkssud8150&theme=nord)](https://github.com/ashutosh00710/github-readme-activity-graph)
 
 <!--
 **eoh9/eoh9** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
