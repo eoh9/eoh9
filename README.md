@@ -7,6 +7,9 @@
 <a href="s">
   <img src="https://github-readme-stats.vercel.app/api?username=eoh9&theme=tokyonight&show_icons=true" width="42%" />
 </a>
+<a href="https://github.com/ashutosh00710/github-readme-activity-graph">
+    <img src="https://github-readme-activity-graph.vercel.app/graph?username=eoh9&theme=react-dark&bg_color=20232a&hide_border=true&line=58A6FF&color=58A6FF" width=94%/>
+</a>
 
 <!--
 **eoh9/eoh9** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
