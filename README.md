@@ -5,6 +5,7 @@
 <div align="left">
  
  ---
+## ✋ Github Stats
 
  [![GITHUB](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Feoh9&count_bg=%23F29494&title_bg=%232F2E2E&icon=github.svg&icon_color=%23FFFFFF&title=GITHUB&edge_flat=false)](https://github.com/eoh9)
  
@@ -18,15 +19,11 @@
 </a>
 <a href="https://github.com/eoh9/github-readme-activity-graph">
     <img src="https://github-readme-activity-graph.vercel.app/graph?username=eoh9&theme=react-dark&bg_color=20232a&hide_border=true&line=58A6FF&color=6994CDEE" width=94%/>
-
-   <img src="https://github.com/eoh9/eoh9/blob/output/github-snake-dark.svg" width="100%">
 </a>
 
 <div align="left">
 
 ---
-
-## 📞 Contact
 <div style="display:flex; flex-direction:row;">
     <a href="mailto:erin35127@gmail.com">
         <img src="https://img.shields.io/badge/
