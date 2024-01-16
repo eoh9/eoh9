@@ -12,18 +12,12 @@
 [![Erin's GitHub stats](https://github-readme-stats.vercel.app/api?username=eoh9&theme=nord&hide_border=true&count_private=true)](https://github.com/eoh9/github-readme-stats)
  
 <!--  <a href="https://github.com/eoh9">
-    <img align="center" src="https://github-readme-activity-graph.cyclic.app/graph?username=jiholee0&theme=light&height=400&width=400&bg_color=white&title_color=2f80ed&color=2f80ed&line=2f80ed&point=1074b8&custom_title=jiholee0's%20Contribution%20Graph&area=true&hide_border=true&font_color=2f80ed&font_weight=bold" />
-  </a>
-<a href="s">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=eoh9&exclude_repo=dkssud8150.github.io&layout=compact&theme=tokyonight" />
-</a>
+    <img align="center" src="https://github-readme-activity-graph.cyclic.app/graph?username=eoh9&theme=light&height=400&width=400&bg_color=white&title_color=2f80ed&color=2f80ed&line=2f80ed&point=1074b8&custom_title=eoh9's%20Contribution%20Graph&area=true&hide_border=true&font_color=2f80ed&font_weight=bold" />
+  </a>-->
  
-<!--  <a href="https://github.com/eoh9">
-    <img align="center" src="https://github-readme-activity-graph.cyclic.app/graph?username=eoh9&theme=light&height=400&width=400&bg_color=white&title_color=2f80ed&color=2f80ed&line=2f80ed&point=1074b8&custom_title=Erin's%20Contribution%20Graph&area=true&hide_border=true&font_color=2f80ed&font_weight=bold" />
-  </a>
 <br>
 
-<a href="https://github.com/ashutosh00710/github-readme-activity-graph">
+<a href="https://github.com/eoh9/github-readme-activity-graph">
     <img src="https://github-readme-activity-graph.vercel.app/graph?username=eoh9&theme=react-dark&bg_color=20232a&hide_border=true&line=58A6FF&color=58A6FF" width=94%/>
   <img src="https://github.com/eoh9/eoh9/blob/output/github-snake-dark.svg" width="100%">
 </a>
