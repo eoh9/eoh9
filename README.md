@@ -9,11 +9,11 @@
  [![GITHUB](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Feoh9&count_bg=%23F29494&title_bg=%232F2E2E&icon=github.svg&icon_color=%23FFFFFF&title=GITHUB&edge_flat=false)](https://github.com/eoh9)
 
 <a href="s">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=eoh9&exclude_repo=dkssud8150.github.io&layout=compact&theme=tokyonight" />
+  <img src="https://github-readme-stats.vercel.app/api?username=eoh9&theme=tokyonight&show_icons=true" width="42%" />
 </a>
 
 <a href="s">
-  <img src="https://github-readme-stats.vercel.app/api?username=eoh9&theme=tokyonight&show_icons=true" width="42%" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=eoh9&exclude_repo=dkssud8150.github.io&layout=compact&theme=tokyonight" />
 </a>
  
 <!--  <a href="https://github.com/jiholee0">
