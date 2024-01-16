@@ -14,13 +14,15 @@
 <!--  <a href="https://github.com/eoh9">
     <img align="center" src="https://github-readme-activity-graph.cyclic.app/graph?username=eoh9&theme=light&height=400&width=400&bg_color=white&title_color=2f80ed&color=2f80ed&line=2f80ed&point=1074b8&custom_title=eoh9's%20Contribution%20Graph&area=true&hide_border=true&font_color=2f80ed&font_weight=bold" />
   </a>-->
-
-<div align="left">
-
- ---
  
 <br>
 
+<a href="https://github.com/eoh9/github-readme-stats">
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=eoh9&layout=donut&show_icons=true&theme=material-palenight&hide_border=true&bg_color=20232a&icon_color=58A6FF&text_color=fff&title_color=58A6FF&count_private=true&exclude_repo=Face-Transfer-Application" width=38% />
+</a>    
+<a href="https://github.com/eoh9/github-readme-stats">
+  <img src="https://github-readme-stats.vercel.app/api?username=eoh9&show_icons=true&theme=material-palenight&hide_border=true&bg_color=20232a&icon_color=58A6FF&text_color=fff&title_color=58A6FF&count_private=true" width=56% />
+</a>
 <a href="https://github.com/eoh9/github-readme-activity-graph">
     <img src="https://github-readme-activity-graph.vercel.app/graph?username=eoh9&theme=react-dark&bg_color=20232a&hide_border=true&line=58A6FF&color=58A6FF" width=94%/>
 </a>
