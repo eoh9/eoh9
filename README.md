@@ -21,8 +21,13 @@
 <!--  <a href="https://github.com/eoh9">
     <img align="center" src="https://github-readme-activity-graph.cyclic.app/graph?username=eoh9&theme=light&height=400&width=400&bg_color=white&title_color=2f80ed&color=2f80ed&line=2f80ed&point=1074b8&custom_title=Erin's%20Contribution%20Graph&area=true&hide_border=true&font_color=2f80ed&font_weight=bold" />
   </a>
- 
 <br>
+
+<a href="https://github.com/ashutosh00710/github-readme-activity-graph">
+    <img src="https://github-readme-activity-graph.vercel.app/graph?username=eoh9&theme=react-dark&bg_color=20232a&hide_border=true&line=58A6FF&color=58A6FF" width=94%/>
+  <img src="https://github.com/eoh9/eoh9/blob/output/github-snake-dark.svg" width="100%">
+</a>
+ 
 
 ## 📞 Contact 📞
 <div style="display:flex; flex-direction:row;">
@@ -39,7 +44,4 @@
 
 ---
 
-<a href="https://github.com/ashutosh00710/github-readme-activity-graph">
-    <img src="https://github-readme-activity-graph.vercel.app/graph?username=eoh9&theme=react-dark&bg_color=20232a&hide_border=true&line=58A6FF&color=58A6FF" width=94%/>
-  <img src="https://github.com/eoh9/eoh9/blob/output/github-snake-dark.svg" width="100%">
-</a>
+
