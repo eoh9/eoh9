@@ -13,8 +13,7 @@
  
 <!--  <a href="https://github.com/eoh9">
     <img align="center" src="https://github-readme-activity-graph.cyclic.app/graph?username=jiholee0&theme=light&height=400&width=400&bg_color=white&title_color=2f80ed&color=2f80ed&line=2f80ed&point=1074b8&custom_title=jiholee0's%20Contribution%20Graph&area=true&hide_border=true&font_color=2f80ed&font_weight=bold" />
-  </a> -->
-
+  </a>
 <a href="s">
   <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=eoh9&exclude_repo=dkssud8150.github.io&layout=compact&theme=tokyonight" />
 </a>
