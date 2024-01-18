@@ -1,8 +1,6 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=6994CDEE&text=&animation=twinkling&height=80)
+![header](https://capsule-render.vercel.app/api?type=waving&color=20232a&text=&animation=twinkling&height=80)
 
 [![Typing SVG](https://readme-typing-svg.demolab.com?font=Alkatra&weight=500&size=45&duration=4000&pause=3&color=20232a&center=false&vCenter=false&multiline=true&repeat=true&width=1000&height=100&lines=Welcome+to+Erin's+GitHub!👋)](https://git.io/typing-svg)
- 
-<div align="left">
  
  ---
 ## ✋ Github Status
@@ -21,18 +19,5 @@
     <img src="https://github-readme-activity-graph.vercel.app/graph?username=eoh9&theme=react-dark&bg_color=20232a&hide_border=true&line=58A6FF&color=6994CDEE" width=94%/>
 </a>
 
-<div align="left">
-
----
-<div style="display:flex; flex-direction:row;">
-    <a href="mailto:erin35127@gmail.com">
-        <img src="https://img.shields.io/badge/
-        Gmail-EA4335?style=for-the-badge&logo=Gmail&logoColor=white"> 
-    </a>
-    <a href="https://www.instagram.com/o_erin2">
-        <img src="https://img.shields.io/badge/
-        Instagram-E4405F?style=for-the-badge&logo=Instagram&logoColor=white"> 
-    </a>
-    
 
 
