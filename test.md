@@ -144,7 +144,7 @@ struct CycleUsageEventListEntity {
 #### `/api/v1/timezones` (GET)
 - **Response Body**:
 ```json
-{'timezones': [{'id': 'America/New_York', 'name': 'Eastern Time'}, {'id': 'America/Los_Angeles', 'name': 'Pacific Time'}]}
+{'timezones': ['America/New_York', 'America/Los_Angeles', 'Europe/London']}
 ```
 
 #### `/api/v1/appliances/{applianceId}/timezone` (POST)
@@ -168,37 +168,37 @@ struct CycleUsageEventListEntity {
 #### `/api/v1/models/{modelNumber}/validation` (GET)
 - **Response Body**:
 ```json
-{'kind': 'Washer', 'model': 'GWH1234', 'valid': True, 'banned': False, 'commissionMethod': 'WiFi', 'capabilities': ['SmartDispense', 'OxiSanitize']}
+{'kind': 'Washer', 'model': 'GWH2400', 'valid': True, 'banned': False, 'commissionMethod': 'WIFI', 'capabilities': ['cycle_status', 'remote_start']}
 ```
 
 #### `/api/v1/appliances/{applianceId}/nickname` (GET)
 - **Response Body**:
 ```json
-{'key': 'nickname', 'value': 'MyWasher'}
+{'key': 'nickname', 'value': 'My Washer'}
 ```
 
 #### `/api/v1/appliances/{applianceId}/preferences` (GET)
 - **Response Body**:
 ```json
-{'preferences': [{'key': 'sound_level', 'value': 'medium'}, {'key': 'display_brightness', 'value': 'high'}]}
+{'preferences': [{'key': 'sound_level', 'value': 'high'}, {'key': 'display_units', 'value': 'fahrenheit'}]}
 ```
 
 #### `/api/v1/appliances/{applianceId}/features` (GET)
 - **Response Body**:
 ```json
-{'smartDispense': True, 'oxiSanitize': True}
+{'remote_start': True, 'cycle_status': True}
 ```
 
 #### `/api/v1/appliances/{applianceId}/metadata` (GET)
 - **Response Body**:
 ```json
-{'modelNumber': 'GWH1234', 'serialNumber': 'SN12345', 'firmwareVersion': '1.0.0'}
+{'modelNumber': 'GWH2400', 'serialNumber': 'SN12345', 'firmwareVersion': '1.2.3'}
 ```
 
 #### `/api/v1/laundry/appliances/{applianceId}/metadata` (GET)
 - **Response Body**:
 ```json
-{'namespace': 'laundry', 'data': {'cycle_count': 100, 'last_cycle_duration': 60}}
+{'namespace': 'laundry', 'data': {'cycle_options': ['Normal', 'Delicates']}}
 ```
 
 
@@ -267,24 +267,27 @@ struct CycleUsageEventListEntity {
 
 ### 🎨 UI 시각적 구조 (코드 기반 도식)
 ```
-┌────────────────────────────┐
-│ statusCardCollapseButton   │ ← tag: 200
-│ statusCardCollapseImage    │ ← tag: 201
-│ applianceNameLabel         │ ← tag: 202
-│ cardContents               │ ← tag: 203
-│ applianceImageView         │ ← tag: 210
-│ cycleStatusView            │ ← tag: 220
-│ cycleStatusLabel           │ ← tag: 222
-│ cycleStatusValueLabel      │ ← tag: 223
-│ timeLeftView               │ ← tag: 230
-│ timeLeftLabel              │ ← tag: 232
-│ timeLeftValueLabel         │ ← tag: 233
-│ finishTimeView             │ ← tag: 240
-│ finishTimeLabel            │ ← tag: 242
-│ finishTimeValueLabel       │ ← tag: 243
-│ progressView               │ ← tag: 250
-│ progressBar                │ ← tag: 251
-└────────────────────────────┘
+┌────────────────────────────────────────────┐
+│ statusCardCollapseButton                 │ ← tag: 200 (UIView)
+│ applianceNameLabel             "Clean Closet" │ ← tag: 202 (UILabel)
+│ cycleStatusView                (StatusView) │ ← tag: 220 (UIView)
+│ progressBar                              │ ← tag: 251 (LinearProgressBar)
+│ timeLeftImage                            │ ← tag: 231 (UIImageView)
+│ cycleStatusImage                         │ ← tag: 221 (UIImageView)
+│ cycleStatusLabel               "Status"  │ ← tag: 222 (UILabel)
+│ cycleStatusValueLabel          "Complete" │ ← tag: 223 (UILabel)
+│ timeLeftLabel                  "Time Left" │ ← tag: 232 (UILabel)
+│ timeLeftValueLabel             "--:--"   │ ← tag: 233 (UILabel)
+│ finishTimeLabel                "Finished" │ ← tag: 242 (UILabel)
+│ finishTimeValueLabel           "--:--"   │ ← tag: 243 (UILabel)
+│ finishTimeImage                          │ ← tag: 241 (UIImageView)
+│ statusCardCollapseImage                  │ ← tag: 201 (UIImageView)
+│ applianceImageView             (ApplianceImage) │ ← tag: 210 (UIImageView)
+│ cardContents                   (StatusView) │ ← tag: 203 (UIView)
+│ timeLeftView                   (TimeLeftView) │ ← tag: 230 (UIView)
+│ finishTimeView                 (FinishView) │ ← tag: 240 (UIView)
+│ progressView                   (ProgressView) │ ← tag: 250 (UIView)
+└────────────────────────────────────────────┘
 ```
 
 ### ✨ Supported Features
@@ -300,29 +303,39 @@ struct CycleUsageEventListEntity {
 | `cardContents` | 203 | Container for the card contents |
 | `applianceImageView` | 210 | Image view for the appliance |
 | `cycleStatusView` | 220 | View containing cycle status information |
+| `cycleStatusImage` | 221 | Image for the cycle status |
 | `cycleStatusLabel` | 222 | Label for the cycle status |
-| `cycleStatusValueLabel` | 223 | Label displaying the cycle status value |
+| `cycleStatusValueLabel` | 223 | Value label for the cycle status |
 | `timeLeftView` | 230 | View containing time left information |
+| `timeLeftImage` | 231 | Image for the time left |
 | `timeLeftLabel` | 232 | Label for the time left |
-| `timeLeftValueLabel` | 233 | Label displaying the time left value |
+| `timeLeftValueLabel` | 233 | Value label for the time left |
 | `finishTimeView` | 240 | View containing finish time information |
+| `finishTimeImage` | 241 | Image for the finish time |
 | `finishTimeLabel` | 242 | Label for the finish time |
-| `finishTimeValueLabel` | 243 | Label displaying the finish time value |
+| `finishTimeValueLabel` | 243 | Value label for the finish time |
 | `progressView` | 250 | View containing the progress bar |
-| `progressBar` | 251 | Progress bar indicating cycle progress |
+| `progressBar` | 251 | Progress bar |
 
 ### Behavior
-- Tapping the collapse button toggles the visibility of cardContents.
-- The collapse button image rotates when the card is collapsed/expanded.
-- The cycle status, time left, and finish time labels are updated based on ERD values.
-- The progress bar animation starts and stops based on the machine state.
+- Sets appliance name label text to Constants.FABRIC_CARE_CLOSET
+- Adds tap gesture recognizer to statusCardCollapseButton to call onTapStatusCardCollapse
+- Sets cycleStatusLabel text to Constants.STATUS
+- Sets timeLeftLabel text to Constants.TIME_LEFT
+- Sets finishTimeLabel text to Constants.FINISHED
+- Toggles visibility of cardContents on onTapStatusCardCollapse
+- Rotates statusCardCollapseImage on onTapStatusCardCollapse
+- Updates cycleStatusValueLabel with LaundryErdConvertSupporterSwift.shared.getStatusText(erdValues)
+- Hides/shows finishTimeView, timeLeftView, and progressView based on machine state
+- Starts/stops progressBar animation based on machine state
+- Updates timeLeftValueLabel with LaundryErdConvertSupporterSwift.shared.convertTimeValuesToTimeLeftString(remainingTimeValues)
+- Updates finishTimeValueLabel with LaundryErdConvertSupporterSwift.shared.getEndTimeString(erdValues)
+- Updates timeLeftValueLabel with LaundryErdConvertSupporterSwift.shared.convertTimeValuesToTimeLeftString(delayStartTimeValues) if in delay mode
 
 ### ERDs Used
 | ERD | Description |
 | --- | ----------- |
 | `LAUNDRY_ERD_MACHINE_STATUS` | LAUNDRY_ERD_MACHINE_STATUS dependency |
-| `LAUNDRY_ERD_CYCLE_NAME` | LAUNDRY_ERD_CYCLE_NAME dependency |
-| `LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT` | LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT dependency |
 
 ### API Dependency
 - WebSocket-based ERD updates via `requestCache()`.
@@ -383,10 +396,10 @@ testClean Closet Status_shouldUpdate_whenERDChanges() {
 
 ### 🎨 UI 시각적 구조 (코드 기반 도식)
 ```
-┌────────────────────────────┐
-│ cycleLabel                 │ ← tag: 300
-│ cycleNameLabel             │ ← tag: 301
-└────────────────────────────┘
+┌────────────────────────────────────────────┐
+│ cycleLabel                     "CYCLE"   │ ← tag: 300 (UILabel)
+│ cycleNameLabel                 "Normal (Refreshed)" │ ← tag: 301 (UILabel)
+└────────────────────────────────────────────┘
 ```
 
 ### ✨ Supported Features
@@ -400,8 +413,9 @@ testClean Closet Status_shouldUpdate_whenERDChanges() {
 | `cycleNameLabel` | 301 | Label for the cycle name |
 
 ### Behavior
-- The cycle name label is updated based on ERD values.
-- The card's visibility can be toggled.
+- Sets cycleLabel text to Constants.CYCLE.uppercased()
+- Updates cycleNameLabel with cycle category and cycle name from ERD values
+- Hides the card if shouldShow is false
 
 ### ERDs Used
 | ERD | Description |
@@ -443,11 +457,11 @@ testClean Closet Cycle_shouldUpdate_whenERDChanges() {
 
 ### 🎨 UI 시각적 구조 (코드 기반 도식)
 ```
-┌────────────────────────────┐
-│ nightCarelabel             │ ← tag: 400
-│ infoButton                 │ ← tag: 401
-│ currentState               │ ← tag: 402
-└────────────────────────────┘
+┌────────────────────────────────────────────┐
+│ infoButton                               │ ← tag: 401 (UIButton)
+│ nightCarelabel                 "NIGHT CARE" │ ← tag: 400 (UILabel)
+│ currentState                   "Off"     │ ← tag: 402 (UILabel)
+└────────────────────────────────────────────┘
 ```
 
 ### ✨ Supported Features
@@ -458,13 +472,15 @@ testClean Closet Cycle_shouldUpdate_whenERDChanges() {
 | Element | Tag | Description |
 | ------- | --- | ----------- |
 | `nightCarelabel` | 400 | Label for the night care feature |
-| `infoButton` | 401 | Button to display information about night care |
-| `currentState` | 402 | Label displaying the current state of night care (On/Off) |
+| `infoButton` | 401 | Button to show info about night care |
+| `currentState` | 402 | Label to show the current state of night care (on/off) |
 
 ### Behavior
-- Tapping the info button triggers the onButtonPressed delegate method with .nightCareInfo.
-- The current state label is updated based on the LAUNDRY_ERD_MACHINE_SUB_CYCLE ERD value.
-- The card's visibility can be toggled.
+- Sets nightCarelabel text to Constants.NIGHT_CARE.uppercased()
+- Adds tap gesture recognizer to infoButton to call onTapNightCareInfo
+- Updates currentState label to Constants.ON if LAUNDRY_ERD_MACHINE_SUB_CYCLE is nightCare, otherwise sets it to Constants.OFF
+- Hides the card if shouldShow is false
+- Calls delegate?.onButtonPressed(.nightCareInfo) on onTapNightCareInfo
 
 ### ERDs Used
 | ERD | Description |
@@ -503,12 +519,12 @@ testClean Closet Night Care_shouldUpdate_whenERDChanges() {
 
 ### 🎨 UI 시각적 구조 (코드 기반 도식)
 ```
-┌────────────────────────────┐
-│ waterTankStatusLabel       │ ← tag: 500
-│ waterTankInfoButton        │ ← tag: 501
-│ currentState               │ ← tag: 502
-│ warningLabel               │ ← tag: 503
-└────────────────────────────┘
+┌────────────────────────────────────────────┐
+│ waterTankStatusLabel           "WATER TANK STATUS" │ ← tag: 500 (UILabel)
+│ waterTankInfoButton                      │ ← tag: 501 (UIButton)
+│ currentState                   "OK"      │ ← tag: 502 (UILabel)
+│ warningLabel                             │ ← tag: 503 (UIImageView)
+└────────────────────────────────────────────┘
 ```
 
 ### ✨ Supported Features
@@ -519,15 +535,16 @@ testClean Closet Night Care_shouldUpdate_whenERDChanges() {
 | Element | Tag | Description |
 | ------- | --- | ----------- |
 | `waterTankStatusLabel` | 500 | Label for the water tank status |
-| `waterTankInfoButton` | 501 | Button to display information about the water tank status |
-| `currentState` | 502 | Label displaying the current state of the water tank |
-| `warningLabel` | 503 | Image to display a warning about the water tank status |
+| `waterTankInfoButton` | 501 | Button to show info about water tank status |
+| `currentState` | 502 | Label to show the current state of the water tank |
+| `warningLabel` | 503 | Image to show a warning about the water tank |
 
 ### Behavior
-- Tapping the info button triggers the onButtonPressed delegate method with .waterTankStatusInfo.
-- The current state label and warning icon are updated based on the LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS ERD value.
-- The card's visibility can be toggled.
-- The info button and warning label are hidden when the tank status is OK.
+- Sets waterTankStatusLabel text to Constants.WATER_TANK_STATUS.uppercased()
+- Adds tap gesture recognizer to waterTankInfoButton to call onTapWaterTankStatusInfo
+- Updates currentState label to Constants.FILL_TANK and shows warning if tank needs filling, otherwise sets it to Constants.OK and hides warning
+- Hides the card if shouldShow is false
+- Calls delegate?.onButtonPressed(.waterTankStatusInfo) on onTapWaterTankStatusInfo
 
 ### ERDs Used
 | ERD | Description |
@@ -573,12 +590,12 @@ testClean Closet Water Tank Status_shouldUpdate_whenERDChanges() {
 
 ### 🎨 UI 시각적 구조 (코드 기반 도식)
 ```
-┌────────────────────────────┐
-│ drainTankStatusLabel       │ ← tag: 600
-│ drainTankInfoButton        │ ← tag: 601
-│ currentState               │ ← tag: 602
-│ warningLabel               │ ← tag: 603
-└────────────────────────────┘
+┌────────────────────────────────────────────┐
+│ drainTankStatusLabel           "DRAIN TANK STATUS" │ ← tag: 600 (UILabel)
+│ drainTankInfoButton                      │ ← tag: 601 (UIButton)
+│ currentState                   "OK"      │ ← tag: 602 (UILabel)
+│ warningLabel                             │ ← tag: 603 (UIImageView)
+└────────────────────────────────────────────┘
 ```
 
 ### ✨ Supported Features
@@ -589,15 +606,16 @@ testClean Closet Water Tank Status_shouldUpdate_whenERDChanges() {
 | Element | Tag | Description |
 | ------- | --- | ----------- |
 | `drainTankStatusLabel` | 600 | Label for the drain tank status |
-| `drainTankInfoButton` | 601 | Button to display information about the drain tank status |
-| `currentState` | 602 | Label displaying the current state of the drain tank |
-| `warningLabel` | 603 | Image to display a warning about the drain tank status |
+| `drainTankInfoButton` | 601 | Button to show info about drain tank status |
+| `currentState` | 602 | Label to show the current state of the drain tank |
+| `warningLabel` | 603 | Image to show a warning about the drain tank |
 
 ### Behavior
-- Tapping the info button triggers the onButtonPressed delegate method with .drainTankStatusInfo.
-- The current state label and warning icon are updated based on the LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS ERD value.
-- The card's visibility can be toggled.
-- The info button and warning label are hidden when the tank status is OK.
+- Sets drainTankStatusLabel text to Constants.DRAIN_TANK_STATUS.uppercased()
+- Adds tap gesture recognizer to drainTankInfoButton to call onTapDrainTankStatusInfo
+- Updates currentState label to Constants.EMPTY_TANK and shows warning if tank needs emptying, otherwise sets it to Constants.OK and hides warning
+- Hides the card if shouldShow is false
+- Calls delegate?.onButtonPressed(.drainTankStatusInfo) on onTapDrainTankStatusInfo
 
 ### ERDs Used
 | ERD | Description |
@@ -645,10 +663,10 @@ testClean Closet Drain Tank Status_shouldUpdate_whenERDChanges() {
 
 | ERD Name | Code Constant | Type | Description | UI Behavior |
 | -------- | ------------- | ---- | ----------- | ----------- |
-| Machine Status | `LAUNDRY_ERD_MACHINE_STATUS` | Enum | Machine status values | Controls UI state and visibility |
-| Cycle Name | `LAUNDRY_ERD_CYCLE_NAME` | String | Cycle Name value | Used for cycle name display |
 | Machine Sub Cycle | `LAUNDRY_ERD_MACHINE_SUB_CYCLE` | String | Machine Sub Cycle value | Used for machine sub cycle display |
 | Clean Closet Tank Status | `LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS` | Enum | Machine status values | Controls UI state and visibility |
+| Cycle Name | `LAUNDRY_ERD_CYCLE_NAME` | String | Cycle Name value | Used for cycle name display |
+| Machine Status | `LAUNDRY_ERD_MACHINE_STATUS` | Enum | Machine status values | Controls UI state and visibility |
 | Cycle Function Current | `LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT` | String | Cycle Function Current value | Used for cycle function current display |
 
 
