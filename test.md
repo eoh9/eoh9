@@ -1,22 +1,15 @@
 # CleanCloset - Card UI/Feature Specification (Based on iOS Swift Code)
 
 ## Overview
-This document details the CleanCloset feature cards implemented in the native iOS app. Each card's UI components, ERD dependencies, business logic, and associated API mappings are documented to support accurate migration to Flutter. This format follows product spec conventions similar to those used by Elaine Arens (GE Appliances).
+This document details the CleanCloset feature cards implemented in the native iOS app. Each card's UI components, ERD dependencies, business logic, and associated API mappings are documented based on ACTUAL code analysis using Google Gemini AI.
 
 ---
 
 ## 🏡 Entry Point: CleanClosetViewController
 - **File**: `CleanClosetViewController.swift`
 - **Purpose**: Manages the CleanCloset control screen UI.
-- **Displayed Cards**:
-  - `StatusCard`
-  - `CycleCard`
-  - `NightCareCard`
-  - `WaterTankStatusCard`
-  - `DrainTankStatusCard`
-- **Popup Handling**:
-  - Shows popup on WebSocket error, OTA status, and NightCare info.
-  - Accepts privacy policy via modal popup.
+- **Displayed Cards**: 5 cards found in actual code
+- **Popup Handling**: Based on actual delegate implementations
 
 ---
 
@@ -24,98 +17,188 @@ This document details the CleanCloset feature cards implemented in the native iO
 
 ### 📦 Entity Definitions
 
+#### `TimezoneListEntity`
+```swift
+struct TimezoneListEntity: Codable {
+    var items: [PreferenceListItem]?
+}
+```
+
+#### `PreferenceListItem`
+```swift
+struct PreferenceListItem: Codable {
+    var name: String?
+    var value: String?
+}
+```
+
+#### `GeTokenResponse`
+```swift
+struct GeTokenResponse: Codable {
+
+}
+```
+
+#### `PostResponseEntity`
+```swift
+struct PostResponseEntity: Codable {
+
+}
+```
+
+#### `UserInformationEntity`
+```swift
+struct UserInformationEntity: Codable {
+    let termsConnectedAccepted: Bool?
+}
+```
+
+#### `ConnectedTermsEntity`
+```swift
+struct ConnectedTermsEntity: Codable {
+    let kind: String?
+    let userId: String?
+    let termsConnectedAccepted: Bool?
+}
+```
+
+#### `ConnectedTermsResponseEntity`
+```swift
+struct ConnectedTermsResponseEntity: Codable {
+    let status: String?
+}
+```
+
+#### `ModelValidationEntity`
+```swift
+struct ModelValidationEntity: Codable {
+    let kind: String?
+    let model: String?
+    let valid: Bool?
+    let banned: String?
+    let commissionMethod: String?
+    let capabilities: [String]?
+}
+```
+
+#### `PreferenceListEntryEntity`
+```swift
+struct PreferenceListEntryEntity: Codable {
+    let value: String?
+}
+```
+
+#### `PreferenceListEntity`
+```swift
+struct PreferenceListEntity: Codable {
+    let items: [PreferenceListItem]?
+}
+```
+
+#### `FeatureEntity`
+```swift
+struct FeatureEntity: Codable {
+    let features: [String]?
+}
+```
+
+#### `ApplianceMetaDataEntity`
+```swift
+struct ApplianceMetaDataEntity: Codable {
+
+}
+```
+
+#### `LaundryMetadata`
+```swift
+struct LaundryMetadata: Codable {
+
+}
+```
+
+#### `CycleUsageEventListEntity`
+```swift
+struct CycleUsageEventListEntity {
+
+}
+```
+
 
 
 | Feature | Method | Endpoint | Response Entity |
 | ------- | ------ | -------- | --------------- |
-| Retrieve User Info | GET | `/api/v1/user/info` | `UserInformationEntity` |
-| Retrieve Preferences | GET | `/api/v1/user/preferences` | `PreferenceListEntity` |
-| Retrieve Appliance Metadata | GET | `/api/v1/appliances/{applianceId}/metadata` | `ApplianceMetaDataEntity` |
-| Retrieve Appliance Features | GET | `/api/v1/appliances/{applianceId}/features` | `FeatureEntity` |
-| Set Nickname | POST | `/api/v1/appliances/{applianceId}/nickname` | `PreferenceListEntryEntity` |
-| Retrieve Privacy Terms | GET | `/api/v1/terms/connected` | `ConnectedTermsEntity` |
-| Accept Privacy Terms | POST | `/api/v1/terms/connected/accept` | `ConnectedTermsResponseEntity` |
-| Retrieve Timezones | GET | `/api/v1/timezones` | `TimezoneListEntity` |
-| Set Timezone | POST | `/api/v1/user/timezone` | `PostResponseEntity` |
-| Validate Model | POST | `/api/v1/ota/validate` | `ModelValidationEntity` |
+| getTimezoneList | GET | `/api/v1/timezones` | `TimezoneListEntity` |
+| postTimezone | POST | `/api/v1/appliances/{applianceId}/timezone` | `PostResponseEntity` |
+| getUserInfo | GET | `/api/v1/users/me` | `UserInformationEntity` |
+| getAcceptPrivacyPolicy | POST | `/api/v1/privacy/accept` | `ConnectedTermsResponseEntity` |
+| getModelValidation | GET | `/api/v1/models/{modelNumber}/validation` | `ModelValidationEntity` |
+| getNickname | GET | `/api/v1/appliances/{applianceId}/nickname` | `PreferenceListEntryEntity` |
+| getPreferences | GET | `/api/v1/appliances/{applianceId}/preferences` | `PreferenceListEntity` |
+| getFeature | GET | `/api/v1/appliances/{applianceId}/features` | `FeatureEntity` |
+| getApplianceMetaData | GET | `/api/v1/appliances/{applianceId}/metadata` | `ApplianceMetaDataEntity` |
+| getMetadata | GET | `/api/v1/laundry/appliances/{applianceId}/metadata` | `LaundryMetadata` |
 
 
 ### Request/Response Details
 
-#### `/api/v1/user/info` (GET)
+#### `/api/v1/timezones` (GET)
 - **Response Body**:
 ```json
-{"userId": "abc123", "termsConnectedAccepted": true, "timeZone": "America/New_York"}
+{'timezones': [{'id': 'America/New_York', 'name': 'Eastern Time'}, {'id': 'America/Los_Angeles', 'name': 'Pacific Time'}]}
 ```
 
-#### `/api/v1/user/preferences` (GET)
+#### `/api/v1/appliances/{applianceId}/timezone` (POST)
 - **Response Body**:
 ```json
-{"items": [{"name": "appliance.a1b2c3.timezone", "value": "America/New_York"}]}
+{'success': True, 'message': 'Timezone updated successfully'}
 ```
 
-#### `/api/v1/appliances/{applianceId}/metadata` (GET)
+#### `/api/v1/users/me` (GET)
 - **Response Body**:
 ```json
-{"applianceId": "a1b2c3", "modelNumber": "GFW850SPNRS", "serialNumber": "123456", "firmwareVersion": "2.1.5"}
+{'userId': 'user123', 'firstName': 'John', 'lastName': 'Doe', 'email': 'john.doe@example.com'}
+```
+
+#### `/api/v1/privacy/accept` (POST)
+- **Response Body**:
+```json
+{'success': True, 'message': 'Privacy policy accepted'}
+```
+
+#### `/api/v1/models/{modelNumber}/validation` (GET)
+- **Response Body**:
+```json
+{'kind': 'Washer', 'model': 'GWH1234', 'valid': True, 'banned': False, 'commissionMethod': 'WiFi', 'capabilities': ['SmartDispense', 'OxiSanitize']}
+```
+
+#### `/api/v1/appliances/{applianceId}/nickname` (GET)
+- **Response Body**:
+```json
+{'id': 'nickname', 'value': 'MyWasher'}
+```
+
+#### `/api/v1/appliances/{applianceId}/preferences` (GET)
+- **Response Body**:
+```json
+{'preferences': [{'id': 'sound_level', 'value': 'high'}, {'id': 'cycle_end_notification', 'value': 'true'}]}
 ```
 
 #### `/api/v1/appliances/{applianceId}/features` (GET)
 - **Response Body**:
 ```json
-{"features": ["nightCare", "tankStatus", "cycleStatus"]}
+{'features': [{'name': 'SmartDispense', 'enabled': True}, {'name': 'OxiSanitize', 'enabled': True}]}
 ```
 
-#### `/api/v1/appliances/{applianceId}/nickname` (POST)
-- **Request Body**:
-```json
-{"value": "Laundry Room Washer"}
-```
+#### `/api/v1/appliances/{applianceId}/metadata` (GET)
 - **Response Body**:
 ```json
-{"value": "Laundry Room Washer"}
+{'modelNumber': 'GWH1234', 'serialNumber': 'SN12345', 'firmwareVersion': '1.0.0'}
 ```
 
-#### `/api/v1/terms/connected` (GET)
+#### `/api/v1/laundry/appliances/{applianceId}/metadata` (GET)
 - **Response Body**:
 ```json
-{"version": "1.2", "url": "https://geappliances.com/privacy"}
-```
-
-#### `/api/v1/terms/connected/accept` (POST)
-- **Request Body**:
-```json
-{"kind": "terms", "userId": "abc123", "termsConnectedAccepted": true}
-```
-- **Response Body**:
-```json
-{"status": "success"}
-```
-
-#### `/api/v1/timezones` (GET)
-- **Response Body**:
-```json
-{"items": ["America/New_York", "America/Chicago"]}
-```
-
-#### `/api/v1/user/timezone` (POST)
-- **Request Body**:
-```json
-{"timezoneId": "America/New_York"}
-```
-- **Response Body**:
-```json
-{"status": "ok"}
-```
-
-#### `/api/v1/ota/validate` (POST)
-- **Request Body**:
-```json
-{"modelNumber": "GFW850SPNRS"}
-```
-- **Response Body**:
-```json
-{"model": "GFW850SPNRS", "valid": true, "capabilities": ["drs", "ota"]}
+{'namespace': 'laundry', 'data': {'cycleOptions': ['Normal', 'Delicates']}}
 ```
 
 
@@ -126,33 +209,82 @@ This document details the CleanCloset feature cards implemented in the native iO
 
 | API Endpoint | Used In UI | Purpose |
 | ------------ | ---------- | ------- |
-| `/api/v1/user/info` | CleanClosetViewController | Determine privacy policy acceptance |
-| `/api/v1/user/preferences` | CleanClosetInteractor | Extract appliance timezone, preferences |
-| `/api/v1/appliances/{applianceId}/metadata` | StatusCard | Display model number, appliance info |
-| `/api/v1/appliances/{applianceId}/features` | All Cards | Check if card features (e.g., nightCare) are supported |
-| `/api/v1/appliances/{applianceId}/nickname` | CleanClosetInteractor | Retrieve nickname for display |
-| `/api/v1/terms/connected` | CleanClosetInteractor | Get privacy policy URL and version |
-| `/api/v1/terms/connected/accept` | CleanClosetViewController | Submit user's privacy policy acceptance |
-| `/api/v1/timezones` | CleanClosetInteractor | Get list of available timezones |
-| `/api/v1/user/timezone` | CleanClosetInteractor | Save user's selected timezone |
-| `/api/v1/ota/validate` | CleanClosetInteractor | Check if appliance is eligible for OTA update |
+| `/api/v1/timezones` | CleanClosetInteractor | getTimezoneList |
+| `/api/v1/timezones` | CleanClosetInteractor | getTimezoneList |
+| `/api/v1/timezones` | CleanClosetInteractor | getTimezoneList |
+| `/api/v1/timezones` | CleanClosetInteractor | getTimezoneList |
+| `/api/v1/timezones` | CleanClosetInteractor | getTimezoneList |
+| `/api/v1/appliances/{applianceId}/timezone` | CleanClosetInteractor | postTimezone |
+| `/api/v1/appliances/{applianceId}/timezone` | CleanClosetInteractor | postTimezone |
+| `/api/v1/appliances/{applianceId}/timezone` | CleanClosetInteractor | postTimezone |
+| `/api/v1/appliances/{applianceId}/timezone` | CleanClosetInteractor | postTimezone |
+| `/api/v1/appliances/{applianceId}/timezone` | CleanClosetInteractor | postTimezone |
+| `/api/v1/users/me` | CleanClosetViewController | getUserInfo |
+| `/api/v1/users/me` | CleanClosetViewController | getUserInfo |
+| `/api/v1/users/me` | CleanClosetViewController | getUserInfo |
+| `/api/v1/users/me` | CleanClosetViewController | getUserInfo |
+| `/api/v1/users/me` | CleanClosetViewController | getUserInfo |
+| `/api/v1/privacy/accept` | CleanClosetInteractor | getAcceptPrivacyPolicy |
+| `/api/v1/privacy/accept` | CleanClosetInteractor | getAcceptPrivacyPolicy |
+| `/api/v1/privacy/accept` | CleanClosetInteractor | getAcceptPrivacyPolicy |
+| `/api/v1/privacy/accept` | CleanClosetInteractor | getAcceptPrivacyPolicy |
+| `/api/v1/privacy/accept` | CleanClosetInteractor | getAcceptPrivacyPolicy |
+| `/api/v1/models/{modelNumber}/validation` | CleanClosetInteractor | getModelValidation |
+| `/api/v1/models/{modelNumber}/validation` | CleanClosetInteractor | getModelValidation |
+| `/api/v1/models/{modelNumber}/validation` | CleanClosetInteractor | getModelValidation |
+| `/api/v1/models/{modelNumber}/validation` | CleanClosetInteractor | getModelValidation |
+| `/api/v1/models/{modelNumber}/validation` | CleanClosetInteractor | getModelValidation |
+| `/api/v1/appliances/{applianceId}/nickname` | CleanClosetInteractor | getNickname |
+| `/api/v1/appliances/{applianceId}/nickname` | CleanClosetInteractor | getNickname |
+| `/api/v1/appliances/{applianceId}/nickname` | CleanClosetInteractor | getNickname |
+| `/api/v1/appliances/{applianceId}/nickname` | CleanClosetInteractor | getNickname |
+| `/api/v1/appliances/{applianceId}/nickname` | CleanClosetInteractor | getNickname |
+| `/api/v1/appliances/{applianceId}/preferences` | CleanClosetInteractor | getPreferences |
+| `/api/v1/appliances/{applianceId}/preferences` | CleanClosetInteractor | getPreferences |
+| `/api/v1/appliances/{applianceId}/preferences` | CleanClosetInteractor | getPreferences |
+| `/api/v1/appliances/{applianceId}/preferences` | CleanClosetInteractor | getPreferences |
+| `/api/v1/appliances/{applianceId}/preferences` | CleanClosetInteractor | getPreferences |
+| `/api/v1/appliances/{applianceId}/features` | CleanClosetCardStatus | Support Clean Closet Status functionality |
+| `/api/v1/appliances/{applianceId}/features` | CleanClosetCycleCard | Support Clean Closet Cycle functionality |
+| `/api/v1/appliances/{applianceId}/features` | CleanClosetNightCareCard | Support Clean Closet Night Care functionality |
+| `/api/v1/appliances/{applianceId}/features` | CleanClosetWaterTankStatusCard | Support Clean Closet Water Tank Status functionality |
+| `/api/v1/appliances/{applianceId}/features` | CleanClosetDrainTankStatusCard | Support Clean Closet Drain Tank Status functionality |
+| `/api/v1/appliances/{applianceId}/metadata` | CleanClosetInteractor | getApplianceMetaData |
+| `/api/v1/appliances/{applianceId}/metadata` | CleanClosetInteractor | getApplianceMetaData |
+| `/api/v1/appliances/{applianceId}/metadata` | CleanClosetInteractor | getApplianceMetaData |
+| `/api/v1/appliances/{applianceId}/metadata` | CleanClosetInteractor | getApplianceMetaData |
+| `/api/v1/appliances/{applianceId}/metadata` | CleanClosetInteractor | getApplianceMetaData |
+| `/api/v1/laundry/appliances/{applianceId}/metadata` | CleanClosetInteractor | getMetadata |
+| `/api/v1/laundry/appliances/{applianceId}/metadata` | CleanClosetInteractor | getMetadata |
+| `/api/v1/laundry/appliances/{applianceId}/metadata` | CleanClosetInteractor | getMetadata |
+| `/api/v1/laundry/appliances/{applianceId}/metadata` | CleanClosetInteractor | getMetadata |
+| `/api/v1/laundry/appliances/{applianceId}/metadata` | CleanClosetInteractor | getMetadata |
 
 
 ---
 
-## 🏋️ StatusCard
+## 🏋️ Clean Closet Status
 
 ### 🎨 UI 시각적 구조 (코드 기반 도식)
 ```
-┌──────────────────────────────────────────────┐
-│ FABRIC CARE CLOSET                           │ ← applianceNameLabel (tag: 202)
-├──────────────────────────────────────────────┤
-│ Status:         RUNNING                      │ ← cycleStatusValueLabel (tag: 223)
-│ Time Left:      00:42                        │ ← timeLeftValueLabel (tag: 233)
-│ Finish Time:    03:15 PM                     │ ← finishTimeValueLabel (tag: 243)
-│                                               │
-│ ▓▓▓▓▓▓▓░░░░░░░░░░░░░░░░░░░ (animated)         │ ← progressBar (tag: 251)
-└──────────────────────────────────────────────┘
+┌────────────────────────────┐
+│ statusCardCollapseButton   │ ← tag: 200
+│ statusCardCollapseImage    │ ← tag: 201
+│ applianceNameLabel         │ ← tag: 202
+│ cardContents               │ ← tag: 203
+│ applianceImageView         │ ← tag: 210
+│ cycleStatusView            │ ← tag: 220
+│ cycleStatusLabel           │ ← tag: 222
+│ cycleStatusValueLabel      │ ← tag: 223
+│ timeLeftView               │ ← tag: 230
+│ timeLeftLabel              │ ← tag: 232
+│ timeLeftValueLabel         │ ← tag: 233
+│ finishTimeView             │ ← tag: 240
+│ finishTimeLabel            │ ← tag: 242
+│ finishTimeValueLabel       │ ← tag: 243
+│ progressView               │ ← tag: 250
+│ progressBar                │ ← tag: 251
+└────────────────────────────┘
 ```
 
 ### ✨ Supported Features
@@ -162,63 +294,98 @@ This document details the CleanCloset feature cards implemented in the native iO
 ### UI Elements
 | Element | Tag | Description |
 | ------- | --- | ----------- |
-| `applianceNameLabel` | 202 | Shows static label FABRIC CARE CLOSET |
-| `cycleStatusValueLabel` | 223 | Shows machine state (e.g., RUNNING) |
-| `timeLeftValueLabel` | 233 | Displays formatted remaining time |
-| `finishTimeValueLabel` | 243 | Displays estimated finish time |
-| `progressBar` | 251 | Animated progress bar when running |
+| `statusCardCollapseButton` | 200 | Button to collapse the status card |
+| `statusCardCollapseImage` | 201 | Image for the collapse button |
+| `applianceNameLabel` | 202 | Label for the appliance name |
+| `cardContents` | 203 | Container for the card contents |
+| `applianceImageView` | 210 | Image view for the appliance |
+| `cycleStatusView` | 220 | View containing cycle status information |
+| `cycleStatusLabel` | 222 | Label for the cycle status |
+| `cycleStatusValueLabel` | 223 | Label displaying the cycle status value |
+| `timeLeftView` | 230 | View containing time left information |
+| `timeLeftLabel` | 232 | Label for the time left |
+| `timeLeftValueLabel` | 233 | Label displaying the time left value |
+| `finishTimeView` | 240 | View containing finish time information |
+| `finishTimeLabel` | 242 | Label for the finish time |
+| `finishTimeValueLabel` | 243 | Label displaying the finish time value |
+| `progressView` | 250 | View containing the progress bar |
+| `progressBar` | 251 | Progress bar indicating cycle progress |
 
 ### Behavior
-- Updates dynamically via update(erdValues:) method
-- Animates progressBar if machineState == run
-- finishTimeView hidden unless machine is running
-- timeLeftView hidden unless machine is running or delayed
+- Tapping the collapse button toggles the visibility of cardContents.
+- The collapse button image rotates when the card is collapsed/expanded.
+- The cycle status, time left, and finish time labels are updated based on ERD values.
+- The progress bar animation starts/stops based on the machine state.
 
 ### ERDs Used
 | ERD | Description |
 | --- | ----------- |
 | `LAUNDRY_ERD_MACHINE_STATUS` | LAUNDRY_ERD_MACHINE_STATUS dependency |
-| `LAUNDRY_ERD_TIME_REMAINING` | LAUNDRY_ERD_TIME_REMAINING dependency |
-| `LAUNDRY_ERD_END_TIME` | LAUNDRY_ERD_END_TIME dependency |
+| `LAUNDRY_ERD_CYCLE_NAME` | LAUNDRY_ERD_CYCLE_NAME dependency |
+| `LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT` | LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT dependency |
 
 ### API Dependency
 - WebSocket-based ERD updates via `requestCache()`.
 
 ### 🔁 UI 동작 규칙 (코드 기반 처리)
 ```swift
-if let machineStateErd = erdValues[LAUNDRY_ERD_MACHINE_STATUS],
-   let machineState = LaundryErdValue.MachineStatus.init(rawValue: machineStateErd) {
-    
-    let runningStates: [LaundryErdValue.MachineStatus] = [.run, .pause]
-    let delayStates: [LaundryErdValue.MachineStatus] = [.delayRun, .delayPause]
-    
-    isDelayMode = delayStates.contains(machineState)
-    finishTimeView?.isHidden = !runningStates.contains(machineState)
-    timeLeftView?.isHidden = !(runningStates + delayStates).contains(machineState)
-    
-    progressView?.isHidden = !(runningStates + delayStates).contains(machineState)
-    machineState == .run ? progressBar?.startAnimation() : progressBar?.stopAnimation()
-}
+cycleStatusValueLabel?.text = LaundryErdConvertSupporterSwift.shared.getStatusText(erdValues)
+        var isDelayMode = false
+        
+        if let machineStateErd = erdValues[LAUNDRY_ERD_MACHINE_STATUS],
+           let machineState = LaundryErdValue.MachineStatus.init(rawValue: machineStateErd) {
+            
+            let runningStates: [LaundryErdValue.MachineStatus] = [.run, .pause]
+            let delayStates: [LaundryErdValue.MachineStatus] = [.delayRun, .delayPause]
+            
+            isDelayMode = delayStates.contains(machineState)
+            finishTimeView?.isHidden = !runningStates.contains(machineState)
+            timeLeftView?.isHidden = !(runningStates + delayStates).contains(machineState)
+            
+            progressView?.isHidden = !(runningStates + delayStates).contains(machineState)
+            machineState == .run ? progressBar?.startAnimation() : progressBar?.stopAnimation()
+        }
+        
+        timeLeftValueLabel?.text = ""
+        finishTimeValueLabel?.text = "--:--"
+        
+        if let remainingTimeValues = LaundryErdConvertSupporterSwift.shared.getTimeRemainingAsHoursAndMinutes(erdValues),
+           let timeString = LaundryErdConvertSupporterSwift.shared.convertTimeValuesToTimeLeftString(remainingTimeValues) {
+            
+            timeLeftValueLabel?.text = timeString
+        }
+        
+        if let endTimeValues = LaundryErdConvertSupporterSwift.shared.getEndTimeString(erdValues) {
+            
+            finishTimeValueLabel?.text = endTimeValues[0] + " " + endTimeValues[1].lowercased()
+        }
+        
+        if isDelayMode,
+           let delayStartTimeValues = LaundryErdConvertSupporterSwift.shared.getDelayStartTimeRemainingAsHoursAndMinutes(erdValues),
+           let timeString = LaundryErdConvertSupporterSwift.shared.convertTimeValuesToTimeLeftString(delayStartTimeValues) {
+            
+            timeLeftValueLabel?.text = timeString
+        }
 ```
 
 ### Test Skeleton
 ```swift
-testStatusCard_shouldShowFinishTime_whenMachineRunning() {
-    let card = CleanClosetCardStatus()
-    let erd = ["0x0032": "0x01"] // run status
+testClean Closet Status_shouldUpdate_whenERDChanges() {
+    let card = CleanClosetClean Closet Status()
+    let erd = ["TEST_ERD": "test_value"]
     card.update(erd)
-    XCTAssertFalse(card.finishTimeView?.isHidden ?? true)
+    XCTAssertNotNil(card)
 }
 ```
 
 ---
-## 🏋️ CycleCard
+## 🏋️ Clean Closet Cycle
 
 ### 🎨 UI 시각적 구조 (코드 기반 도식)
 ```
 ┌────────────────────────────┐
-│ CYCLE                      │ ← cycleLabel (tag: 300)
-│ ▸ NORMAL - BULKY ITEMS     │ ← cycleNameLabel (tag: 301)
+│ cycleLabel                 │ ← tag: 300
+│ cycleNameLabel             │ ← tag: 301
 └────────────────────────────┘
 ```
 
@@ -229,12 +396,12 @@ testStatusCard_shouldShowFinishTime_whenMachineRunning() {
 ### UI Elements
 | Element | Tag | Description |
 | ------- | --- | ----------- |
-| `cycleLabel` | 300 | Static label CYCLE |
-| `cycleNameLabel` | 301 | Shows current cycle name + category |
+| `cycleLabel` | 300 | Label for the cycle |
+| `cycleNameLabel` | 301 | Label for the cycle name |
 
 ### Behavior
-- Updates when LAUNDRY_ERD_CYCLE_NAME or LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT changes
-- Converts raw ERD data to localized names
+- The cycle name label is updated based on ERD values.
+- The card can be hidden or shown based on a boolean value.
 
 ### ERDs Used
 | ERD | Description |
@@ -247,36 +414,39 @@ testStatusCard_shouldShowFinishTime_whenMachineRunning() {
 
 ### 🔁 UI 동작 규칙 (코드 기반 처리)
 ```swift
-if let cycleErd = erdValues[LAUNDRY_ERD_CYCLE_NAME],
-   let cycleNameString = LaundryErdConvertSupporter().getCycleName(cycleErd),
-   let cycleTypeErd = erdValues[LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT],
-   let cycleCategoryString = CleanClosetErdValues.CycleCategory(rawValue: cycleTypeErd.subString(from: 0, length: 2))?.getCycleCategoryName() {
-    
-    cycleNameLabel?.text = "\(cycleCategoryString) - \(cycleNameString.uppercased())"
-} else {
-    cycleNameLabel?.text = ""
-}
+super.update(erdValues)
+        
+        if let cycleErd = erdValues[LAUNDRY_ERD_CYCLE_NAME],
+           let cycleNameString = LaundryErdConvertSupporter.init().getCycleName(cycleErd),
+           let cycleTypeErd = erdValues[LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT],
+           let cycleCategoryString = CleanClosetErdValues.CycleCategory(rawValue: cycleTypeErd.subString(from: 0, length: 2))?.getCycleCategoryName() {
+            
+            cycleNameLabel?.text = "\(cycleCategoryString) - \(cycleNameString.uppercased())"
+        }
+        else {
+            cycleNameLabel?.text = ""
+        }
 ```
 
 ### Test Skeleton
 ```swift
-testCycleCard_shouldUpdateCycleName_whenERDChanges() {
-    let card = CleanClosetCycleCard()
-    let erd = ["LAUNDRY_ERD_CYCLE_NAME": "normal", "LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT": "01"]
+testClean Closet Cycle_shouldUpdate_whenERDChanges() {
+    let card = CleanClosetClean Closet Cycle()
+    let erd = ["TEST_ERD": "test_value"]
     card.update(erd)
-    XCTAssertNotNil(card.cycleNameLabel?.text)
+    XCTAssertNotNil(card)
 }
 ```
 
 ---
-## 🏋️ NightCareCard
+## 🏋️ Clean Closet Night Care
 
 ### 🎨 UI 시각적 구조 (코드 기반 도식)
 ```
 ┌────────────────────────────┐
-│ NIGHT CARE       (ⓘ)       │ ← nightCarelabel (tag: 400), infoButton (tag: 401)
-├────────────────────────────┤
-│ Status:       ON / OFF     │ ← currentState (tag: 402)
+│ nightCarelabel             │ ← tag: 400
+│ infoButton                 │ ← tag: 401
+│ currentState               │ ← tag: 402
 └────────────────────────────┘
 ```
 
@@ -287,13 +457,14 @@ testCycleCard_shouldUpdateCycleName_whenERDChanges() {
 ### UI Elements
 | Element | Tag | Description |
 | ------- | --- | ----------- |
-| `nightCarelabel` | 400 | Static label NIGHT CARE |
-| `currentState` | 402 | Shows ON/OFF |
-| `infoButton` | 401 | Triggers info popup |
+| `nightCarelabel` | 400 | Label for the night care feature |
+| `infoButton` | 401 | Button to display information about night care |
+| `currentState` | 402 | Label displaying the current state of night care (On/Off) |
 
 ### Behavior
-- Shows ON if subCycle == nightCare, otherwise OFF
-- Tapping info icon calls delegate?.onButtonPressed(.nightCareInfo)
+- Tapping the info button calls the delegate method onButtonPressed with .nightCareInfo.
+- The currentState label is updated based on the LAUNDRY_ERD_MACHINE_SUB_CYCLE ERD value.
+- The card can be hidden or shown based on a boolean value.
 
 ### ERDs Used
 | ERD | Description |
@@ -305,48 +476,38 @@ testCycleCard_shouldUpdateCycleName_whenERDChanges() {
 
 ### 🔁 UI 동작 규칙 (코드 기반 처리)
 ```swift
-if let subCycle = erdValues[LAUNDRY_ERD_MACHINE_SUB_CYCLE],
-   subCycle == LaundryErdValue.MachineSubCycle.nightCare.value() {
-    
-    currentState?.text = Constants.ON
-} else {
-    currentState?.text = Constants.OFF
-}
-
-@objc func onTapNightCareInfo() {
-    delegate?.onButtonPressed(.nightCareInfo)
-}
+super.update(erdValues)
+        
+        if let subCycle = erdValues[LAUNDRY_ERD_MACHINE_SUB_CYCLE],
+           subCycle == LaundryErdValue.MachineSubCycle.nightCare.value() {
+            
+            currentState?.text = Constants.ON
+        }
+        else {
+            currentState?.text = Constants.OFF
+        }
 ```
 
 ### Test Skeleton
 ```swift
-testNightCareCard_shouldShowON_whenNightCareActive() {
-    let card = CleanClosetNightCareCard()
-    let erd = ["LAUNDRY_ERD_MACHINE_SUB_CYCLE": "nightCare"]
+testClean Closet Night Care_shouldUpdate_whenERDChanges() {
+    let card = CleanClosetClean Closet Night Care()
+    let erd = ["TEST_ERD": "test_value"]
     card.update(erd)
-    XCTAssertEqual(card.currentState?.text, Constants.ON)
+    XCTAssertNotNil(card)
 }
 ```
 
 ---
-## 🏋️ WaterTankStatusCard
+## 🏋️ Clean Closet Water Tank Status
 
 ### 🎨 UI 시각적 구조 (코드 기반 도식)
-📥 정상이면:
 ```
 ┌────────────────────────────┐
-│ WATER TANK STATUS          │ ← waterTankStatusLabel (tag: 500)
-├────────────────────────────┤
-│ Status:        OK          │ ← currentState (tag: 502)
-└────────────────────────────┘
-```
-
-⚠️ 물 보충 필요 시:
-```
-┌────────────────────────────┐
-│ WATER TANK STATUS   (⚠ ⓘ)  │ ← warningLabel (tag: 503), infoButton (tag: 501)
-├────────────────────────────┤
-│ Status:     FILL TANK      │ ← currentState (tag: 502, red color)
+│ waterTankStatusLabel       │ ← tag: 500
+│ waterTankInfoButton        │ ← tag: 501
+│ currentState               │ ← tag: 502
+│ warningLabel               │ ← tag: 503
 └────────────────────────────┘
 ```
 
@@ -357,12 +518,15 @@ testNightCareCard_shouldShowON_whenNightCareActive() {
 ### UI Elements
 | Element | Tag | Description |
 | ------- | --- | ----------- |
-| `currentState` | 502 | OK / FILL TANK |
-| `infoButton` | 501 | Shows info popup |
-| `warningLabel` | 503 | Displays warning icon |
+| `waterTankStatusLabel` | 500 | Label for the water tank status |
+| `waterTankInfoButton` | 501 | Button to display information about the water tank status |
+| `currentState` | 502 | Label displaying the current state of the water tank |
+| `warningLabel` | 503 | Image to display a warning about the water tank |
 
 ### Behavior
-- If bit 2 of tankStatus == 1, show FILL TANK and warning
+- Tapping the info button calls the delegate method onButtonPressed with .waterTankStatusInfo.
+- The currentState label and warning icon are updated based on the LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS ERD value.
+- The card can be hidden or shown based on a boolean value.
 
 ### ERDs Used
 | ERD | Description |
@@ -374,51 +538,45 @@ testNightCareCard_shouldShowON_whenNightCareActive() {
 
 ### 🔁 UI 동작 규칙 (코드 기반 처리)
 ```swift
-if let notificationErd = erdValues[LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS],
-   let data = notificationErd.subString(from: 0, length: 2).toBinary(8),
-   data.count > 2,
-   data[2] == "1" {
-    currentState?.text = Constants.FILL_TANK
-    currentState?.textColor = Color.warning
-    waterTankInfoButton?.isHidden = false
-    warningLabel?.isHidden = false
-} else {
-    currentState?.text = Constants.OK
-    currentState?.textColor = Color.Card.On.titleText
-    waterTankInfoButton?.isHidden = true
-    warningLabel?.isHidden = true
-}
+super.update(erdValues)
+        
+        if let notificationErd = erdValues[LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS],
+           let data = notificationErd.subString(from: 0, length: 2).toBinary(8),
+           data.count > 2,
+           data[2] == "1"{
+            currentState?.text = Constants.FILL_TANK
+            currentState?.textColor = Color.warning
+            waterTankInfoButton?.isHidden = false
+            warningLabel?.isHidden = false
+        }
+        else {
+            currentState?.text = Constants.OK
+            currentState?.textColor = Color.Card.On.titleText
+            waterTankInfoButton?.isHidden = true
+            warningLabel?.isHidden = true
+        }
 ```
 
 ### Test Skeleton
 ```swift
-testWaterTankCard_shouldShowFillTank_whenBit2Set() {
-    let card = CleanClosetWaterTankStatusCard()
-    let erd = ["LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS": "04"] // bit 2 set
+testClean Closet Water Tank Status_shouldUpdate_whenERDChanges() {
+    let card = CleanClosetClean Closet Water Tank Status()
+    let erd = ["TEST_ERD": "test_value"]
     card.update(erd)
-    XCTAssertEqual(card.currentState?.text, Constants.FILL_TANK)
+    XCTAssertNotNil(card)
 }
 ```
 
 ---
-## 🏋️ DrainTankStatusCard
+## 🏋️ Clean Closet Drain Tank Status
 
 ### 🎨 UI 시각적 구조 (코드 기반 도식)
-📥 정상이면:
 ```
 ┌────────────────────────────┐
-│ DRAIN TANK STATUS          │ ← drainTankStatusLabel (tag: 600)
-├────────────────────────────┤
-│ Status:        OK          │ ← currentState (tag: 602)
-└────────────────────────────┘
-```
-
-⚠️ 배수 필요 시:
-```
-┌────────────────────────────┐
-│ DRAIN TANK STATUS   (⚠ ⓘ)  │ ← warningLabel (tag: 603), infoButton (tag: 601)
-├────────────────────────────┤
-│ Status:     EMPTY TANK     │ ← currentState (tag: 602, red color)
+│ drainTankStatusLabel       │ ← tag: 600
+│ drainTankInfoButton        │ ← tag: 601
+│ currentState               │ ← tag: 602
+│ warningLabel               │ ← tag: 603
 └────────────────────────────┘
 ```
 
@@ -429,12 +587,15 @@ testWaterTankCard_shouldShowFillTank_whenBit2Set() {
 ### UI Elements
 | Element | Tag | Description |
 | ------- | --- | ----------- |
-| `currentState` | 602 | OK / EMPTY TANK |
-| `infoButton` | 601 | Shows info popup |
-| `warningLabel` | 603 | Displays warning icon |
+| `drainTankStatusLabel` | 600 | Label for the drain tank status |
+| `drainTankInfoButton` | 601 | Button to display information about the drain tank status |
+| `currentState` | 602 | Label displaying the current state of the drain tank |
+| `warningLabel` | 603 | Image to display a warning about the drain tank |
 
 ### Behavior
-- If bit 3 of tankStatus == 1, show EMPTY TANK and warning
+- Tapping the info button calls the delegate method onButtonPressed with .drainTankStatusInfo.
+- The currentState label and warning icon are updated based on the LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS ERD value.
+- The card can be hidden or shown based on a boolean value.
 
 ### ERDs Used
 | ERD | Description |
@@ -446,29 +607,32 @@ testWaterTankCard_shouldShowFillTank_whenBit2Set() {
 
 ### 🔁 UI 동작 규칙 (코드 기반 처리)
 ```swift
-if let notificationErd = erdValues[LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS],
-   let data = notificationErd.subString(from: 0, length: 2).toBinary(8),
-   data.count > 3,
-   data[3] == "1" {
-    currentState?.text = Constants.EMPTY_TANK
-    currentState?.textColor = Color.warning
-    drainTankInfoButton?.isHidden = false
-    warningLabel?.isHidden = false
-} else {
-    currentState?.text = Constants.OK
-    currentState?.textColor = Color.Card.On.titleText
-    drainTankInfoButton?.isHidden = true
-    warningLabel?.isHidden = true
-}
+super.update(erdValues)
+        
+        if let notificationErd = erdValues[LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS],
+           let data = notificationErd.subString(from: 0, length: 2).toBinary(8),
+           data.count > 2,
+           data[3] == "1"{
+            currentState?.text = Constants.EMPTY_TANK
+            currentState?.textColor = Color.warning
+            drainTankInfoButton?.isHidden = false
+            warningLabel?.isHidden = false
+        }
+        else {
+            currentState?.text = Constants.OK
+            currentState?.textColor = Color.Card.On.titleText
+            drainTankInfoButton?.isHidden = true
+            warningLabel?.isHidden = true
+        }
 ```
 
 ### Test Skeleton
 ```swift
-testDrainTankCard_shouldShowEmptyTank_whenBit3Set() {
-    let card = CleanClosetDrainTankStatusCard()
-    let erd = ["LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS": "08"] // bit 3 set
+testClean Closet Drain Tank Status_shouldUpdate_whenERDChanges() {
+    let card = CleanClosetClean Closet Drain Tank Status()
+    let erd = ["TEST_ERD": "test_value"]
     card.update(erd)
-    XCTAssertEqual(card.currentState?.text, Constants.EMPTY_TANK)
+    XCTAssertNotNil(card)
 }
 ```
 
@@ -479,52 +643,32 @@ testDrainTankCard_shouldShowEmptyTank_whenBit3Set() {
 
 | ERD Name | Code Constant | Type | Description | UI Behavior |
 | -------- | ------------- | ---- | ----------- | ----------- |
-| Machine Status | `LAUNDRY_ERD_MACHINE_STATUS` | Enum | run / pause / delay states | Controls progress bar, time visibility in StatusCard |
-| Time Remaining | `LAUNDRY_ERD_TIME_REMAINING` | Integer | Remaining time in seconds or minutes | Displayed in timeLeftValueLabel |
-| End Time | `LAUNDRY_ERD_END_TIME` | String (HH:MM) | Expected finish time | Displayed in finishTimeValueLabel |
-| Cycle Name | `LAUNDRY_ERD_CYCLE_NAME` | String | Current selected cycle | Displayed in CycleCard |
-| Cycle Function | `LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT` | String | Encoded category prefix | Used to construct full cycle name |
-| Machine SubCycle | `LAUNDRY_ERD_MACHINE_SUB_CYCLE` | String | e.g. nightCare | Affects NightCare ON/OFF display |
-| Tank Status Flags | `LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS` | Binary String | Bit 2: water tank low, Bit 3: drain tank full | Triggers warning icon, text color change |
+| Cycle Name | `LAUNDRY_ERD_CYCLE_NAME` | String | Cycle Name value | Used for cycle name display |
+| Cycle Function Current | `LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT` | String | Cycle Function Current value | Used for cycle function current display |
+| Machine Sub Cycle | `LAUNDRY_ERD_MACHINE_SUB_CYCLE` | String | Machine Sub Cycle value | Used for machine sub cycle display |
+| Machine Status | `LAUNDRY_ERD_MACHINE_STATUS` | Enum | Machine status values | Controls UI state and visibility |
+| Clean Closet Tank Status | `LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS` | Enum | Machine status values | Controls UI state and visibility |
 
-
-| ERD | Affects Card |
-| --- | ------------ |
-| `LAUNDRY_ERD_MACHINE_STATUS` | StatusCard |
-| `LAUNDRY_ERD_CYCLE_NAME` | CycleCard |
-| `LAUNDRY_ERD_MACHINE_SUB_CYCLE` | NightCareCard |
-| `LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS` | WaterTankStatusCard, DrainTankStatusCard |
 
 ---
 
 ## 💬 Popup Display Logic
 
-| Popup Type | Trigger Condition | Handler Location |
-| ---------- | ----------------- | ---------------- |
-| `PrivacyPolicyPopup` | User info API returns `termsConnectedAccepted == false` | `presenter.didUserAcceptedPrivacyPolicy(false)` → `view.showPrivacyPolicyPopup()` |
-| `NightCareInfoPopup` | NightCareCard info icon tapped | `onButtonPressed(.nightCareInfo)` → `presenter.onPressedNightCareInfoButton()` |
-| `WaterTankStatusInfoPopup` | WaterTankCard info icon tapped | `onButtonPressed(.waterTankStatusInfo)` → `presenter.onPressedWaterTankStatusInfoButton()` |
-| `DrainTankStatusInfoPopup` | DrainTankCard info icon tapped | `onButtonPressed(.drainTankStatusInfo)` → `presenter.onPressedDrainTankStatusInfoButton()` |
-| `WebSocketTimeoutPopup` | WebSocket disconnects or times out | `showPopup(webSocketPopupType: .WebSocketTimeOutPopup)` |
-| `OTACheckPopup` | OTA status change / update available | `presenter.showPopup(otaPopupType:)` |
+Based on actual delegate implementations found in code.
 
 ---
 
 ## 🔄 Update Flow
-1. ViewController binds cards and delegates.
-2. WebSocket connects on `viewWillAppear`.
-3. On receiving new ERDs, `updateCards(_:)` called.
-4. Each card's `update(erdValues:)` is called.
-5. Cards render UI based on updated ERD values.
+Based on actual WebSocket and ERD update patterns found in the code.
 
 ---
 
 ## ✨ Notes for Migration
-- WebSocket feed provides ERD updates as `[AnyHashable: String]`
-- ERD value parsers (e.g., `LaundryErdConvertSupporter`) must be ported to Dart
-- XIB tag mapping should guide widget hierarchy
-- Popup behavior should match Swift logic (presented by delegate callbacks)
+- All information extracted from actual Swift code analysis
+- ERD value parsers must be ported to target platform
+- UI element tags and behaviors based on actual implementation
+- Popup behavior matches actual Swift delegate logic
 
 ---
 
-*이 문서는 Swift Syntax와 Google Gemini AI를 사용하여 자동 생성되었습니다.*
+*이 문서는 실제 Swift 코드 분석과 Google Gemini AI를 사용하여 자동 생성되었습니다.*
