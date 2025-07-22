@@ -174,19 +174,19 @@ struct CycleUsageEventListEntity {
 #### `/api/v1/appliances/{applianceId}/nickname` (GET)
 - **Response Body**:
 ```json
-{'id': 'nickname', 'value': 'MyWasher'}
+{'key': 'nickname', 'value': 'MyWasher'}
 ```
 
 #### `/api/v1/appliances/{applianceId}/preferences` (GET)
 - **Response Body**:
 ```json
-{'preferences': [{'id': 'sound_level', 'value': 'high'}, {'id': 'cycle_end_notification', 'value': 'true'}]}
+{'preferences': [{'key': 'sound_level', 'value': 'medium'}, {'key': 'display_brightness', 'value': 'high'}]}
 ```
 
 #### `/api/v1/appliances/{applianceId}/features` (GET)
 - **Response Body**:
 ```json
-{'features': [{'name': 'SmartDispense', 'enabled': True}, {'name': 'OxiSanitize', 'enabled': True}]}
+{'smartDispense': True, 'oxiSanitize': True}
 ```
 
 #### `/api/v1/appliances/{applianceId}/metadata` (GET)
@@ -198,7 +198,7 @@ struct CycleUsageEventListEntity {
 #### `/api/v1/laundry/appliances/{applianceId}/metadata` (GET)
 - **Response Body**:
 ```json
-{'namespace': 'laundry', 'data': {'cycleOptions': ['Normal', 'Delicates']}}
+{'namespace': 'laundry', 'data': {'cycle_count': 100, 'last_cycle_duration': 60}}
 ```
 
 
@@ -315,7 +315,7 @@ struct CycleUsageEventListEntity {
 - Tapping the collapse button toggles the visibility of cardContents.
 - The collapse button image rotates when the card is collapsed/expanded.
 - The cycle status, time left, and finish time labels are updated based on ERD values.
-- The progress bar animation starts/stops based on the machine state.
+- The progress bar animation starts and stops based on the machine state.
 
 ### ERDs Used
 | ERD | Description |
@@ -401,7 +401,7 @@ testClean Closet Status_shouldUpdate_whenERDChanges() {
 
 ### Behavior
 - The cycle name label is updated based on ERD values.
-- The card can be hidden or shown based on a boolean value.
+- The card's visibility can be toggled.
 
 ### ERDs Used
 | ERD | Description |
@@ -462,9 +462,9 @@ testClean Closet Cycle_shouldUpdate_whenERDChanges() {
 | `currentState` | 402 | Label displaying the current state of night care (On/Off) |
 
 ### Behavior
-- Tapping the info button calls the delegate method onButtonPressed with .nightCareInfo.
-- The currentState label is updated based on the LAUNDRY_ERD_MACHINE_SUB_CYCLE ERD value.
-- The card can be hidden or shown based on a boolean value.
+- Tapping the info button triggers the onButtonPressed delegate method with .nightCareInfo.
+- The current state label is updated based on the LAUNDRY_ERD_MACHINE_SUB_CYCLE ERD value.
+- The card's visibility can be toggled.
 
 ### ERDs Used
 | ERD | Description |
@@ -521,12 +521,13 @@ testClean Closet Night Care_shouldUpdate_whenERDChanges() {
 | `waterTankStatusLabel` | 500 | Label for the water tank status |
 | `waterTankInfoButton` | 501 | Button to display information about the water tank status |
 | `currentState` | 502 | Label displaying the current state of the water tank |
-| `warningLabel` | 503 | Image to display a warning about the water tank |
+| `warningLabel` | 503 | Image to display a warning about the water tank status |
 
 ### Behavior
-- Tapping the info button calls the delegate method onButtonPressed with .waterTankStatusInfo.
-- The currentState label and warning icon are updated based on the LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS ERD value.
-- The card can be hidden or shown based on a boolean value.
+- Tapping the info button triggers the onButtonPressed delegate method with .waterTankStatusInfo.
+- The current state label and warning icon are updated based on the LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS ERD value.
+- The card's visibility can be toggled.
+- The info button and warning label are hidden when the tank status is OK.
 
 ### ERDs Used
 | ERD | Description |
@@ -590,12 +591,13 @@ testClean Closet Water Tank Status_shouldUpdate_whenERDChanges() {
 | `drainTankStatusLabel` | 600 | Label for the drain tank status |
 | `drainTankInfoButton` | 601 | Button to display information about the drain tank status |
 | `currentState` | 602 | Label displaying the current state of the drain tank |
-| `warningLabel` | 603 | Image to display a warning about the drain tank |
+| `warningLabel` | 603 | Image to display a warning about the drain tank status |
 
 ### Behavior
-- Tapping the info button calls the delegate method onButtonPressed with .drainTankStatusInfo.
-- The currentState label and warning icon are updated based on the LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS ERD value.
-- The card can be hidden or shown based on a boolean value.
+- Tapping the info button triggers the onButtonPressed delegate method with .drainTankStatusInfo.
+- The current state label and warning icon are updated based on the LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS ERD value.
+- The card's visibility can be toggled.
+- The info button and warning label are hidden when the tank status is OK.
 
 ### ERDs Used
 | ERD | Description |
@@ -643,11 +645,11 @@ testClean Closet Drain Tank Status_shouldUpdate_whenERDChanges() {
 
 | ERD Name | Code Constant | Type | Description | UI Behavior |
 | -------- | ------------- | ---- | ----------- | ----------- |
-| Cycle Name | `LAUNDRY_ERD_CYCLE_NAME` | String | Cycle Name value | Used for cycle name display |
-| Cycle Function Current | `LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT` | String | Cycle Function Current value | Used for cycle function current display |
-| Machine Sub Cycle | `LAUNDRY_ERD_MACHINE_SUB_CYCLE` | String | Machine Sub Cycle value | Used for machine sub cycle display |
 | Machine Status | `LAUNDRY_ERD_MACHINE_STATUS` | Enum | Machine status values | Controls UI state and visibility |
+| Cycle Name | `LAUNDRY_ERD_CYCLE_NAME` | String | Cycle Name value | Used for cycle name display |
+| Machine Sub Cycle | `LAUNDRY_ERD_MACHINE_SUB_CYCLE` | String | Machine Sub Cycle value | Used for machine sub cycle display |
 | Clean Closet Tank Status | `LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS` | Enum | Machine status values | Controls UI state and visibility |
+| Cycle Function Current | `LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT` | String | Cycle Function Current value | Used for cycle function current display |
 
 
 ---
