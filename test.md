@@ -49,56 +49,65 @@ struct PostResponseEntity: Codable {
 #### `UserInformationEntity`
 ```swift
 struct UserInformationEntity: Codable {
-    let termsConnectedAccepted: Bool?
+    var termsConnectedAccepted: Bool?
 }
 ```
 
 #### `ConnectedTermsEntity`
 ```swift
 struct ConnectedTermsEntity: Codable {
-    let kind: String?
-    let userId: String?
-    let termsConnectedAccepted: Bool?
+    var kind: String?
+    var userId: String?
+    var termsConnectedAccepted: Bool?
 }
 ```
 
 #### `ConnectedTermsResponseEntity`
 ```swift
 struct ConnectedTermsResponseEntity: Codable {
-    let status: String?
+    var status: String?
 }
 ```
 
 #### `ModelValidationEntity`
 ```swift
 struct ModelValidationEntity: Codable {
-    let kind: String?
-    let model: String?
-    let valid: Bool?
-    let banned: String?
-    let commissionMethod: String?
-    let capabilities: [String]?
+    var kind: String?
+    var model: String?
+    var valid: Bool?
+    var banned: Bool?
+    var commissionMethod: String?
+    var capabilities: [String]?
+
+    init(kind: String?, model: String?, valid: Bool?, banned: Bool?, commissionMethod: String?, capabilities: [String]?) {
+        self.kind = kind
+        self.model = model
+        self.valid = valid
+        self.banned = banned
+        self.commissionMethod = commissionMethod
+        self.capabilities = capabilities
+    }
 }
 ```
 
 #### `PreferenceListEntryEntity`
 ```swift
 struct PreferenceListEntryEntity: Codable {
-    let value: String?
+    var value: String?
 }
 ```
 
 #### `PreferenceListEntity`
 ```swift
 struct PreferenceListEntity: Codable {
-    let items: [PreferenceListItem]?
+    var items: [PreferenceListItem]?
 }
 ```
 
 #### `FeatureEntity`
 ```swift
 struct FeatureEntity: Codable {
-    let features: [String]?
+    var features: [String]?
 }
 ```
 
@@ -118,7 +127,7 @@ struct LaundryMetadata: Codable {
 
 #### `CycleUsageEventListEntity`
 ```swift
-struct CycleUsageEventListEntity {
+class CycleUsageEventListEntity: NSObject {
 
 }
 ```
@@ -144,7 +153,7 @@ struct CycleUsageEventListEntity {
 #### `/api/v1/timezones` (GET)
 - **Response Body**:
 ```json
-{'timezones': ['America/New_York', 'America/Los_Angeles', 'Europe/London']}
+{'timezones': [{'id': 'America/New_York', 'name': 'Eastern Time'}, {'id': 'America/Los_Angeles', 'name': 'Pacific Time'}]}
 ```
 
 #### `/api/v1/appliances/{applianceId}/timezone` (POST)
@@ -168,37 +177,37 @@ struct CycleUsageEventListEntity {
 #### `/api/v1/models/{modelNumber}/validation` (GET)
 - **Response Body**:
 ```json
-{'kind': 'Washer', 'model': 'GWH2400', 'valid': True, 'banned': False, 'commissionMethod': 'WIFI', 'capabilities': ['cycle_status', 'remote_start']}
+{'kind': 'Washer', 'model': 'GWH1234', 'valid': True, 'banned': False, 'commissionMethod': 'WiFi', 'capabilities': ['SmartDispense', 'OxiSanitize']}
 ```
 
 #### `/api/v1/appliances/{applianceId}/nickname` (GET)
 - **Response Body**:
 ```json
-{'key': 'nickname', 'value': 'My Washer'}
+{'id': 'nickname', 'value': 'MyWasher'}
 ```
 
 #### `/api/v1/appliances/{applianceId}/preferences` (GET)
 - **Response Body**:
 ```json
-{'preferences': [{'key': 'sound_level', 'value': 'high'}, {'key': 'display_units', 'value': 'fahrenheit'}]}
+{'preferences': [{'id': 'sound_level', 'value': 'high'}, {'id': 'cycle_end_notification', 'value': 'true'}]}
 ```
 
 #### `/api/v1/appliances/{applianceId}/features` (GET)
 - **Response Body**:
 ```json
-{'remote_start': True, 'cycle_status': True}
+{'smartDispense': True, 'oxiSanitize': True}
 ```
 
 #### `/api/v1/appliances/{applianceId}/metadata` (GET)
 - **Response Body**:
 ```json
-{'modelNumber': 'GWH2400', 'serialNumber': 'SN12345', 'firmwareVersion': '1.2.3'}
+{'modelNumber': 'GWH1234', 'serialNumber': 'SN12345', 'firmwareVersion': '1.0.0'}
 ```
 
 #### `/api/v1/laundry/appliances/{applianceId}/metadata` (GET)
 - **Response Body**:
 ```json
-{'namespace': 'laundry', 'data': {'cycle_options': ['Normal', 'Delicates']}}
+{'namespace': 'laundry', 'data': {'cycleOptions': ['Normal', 'Delicates']}}
 ```
 
 
@@ -210,55 +219,15 @@ struct CycleUsageEventListEntity {
 | API Endpoint | Used In UI | Purpose |
 | ------------ | ---------- | ------- |
 | `/api/v1/timezones` | CleanClosetInteractor | getTimezoneList |
-| `/api/v1/timezones` | CleanClosetInteractor | getTimezoneList |
-| `/api/v1/timezones` | CleanClosetInteractor | getTimezoneList |
-| `/api/v1/timezones` | CleanClosetInteractor | getTimezoneList |
-| `/api/v1/timezones` | CleanClosetInteractor | getTimezoneList |
-| `/api/v1/appliances/{applianceId}/timezone` | CleanClosetInteractor | postTimezone |
-| `/api/v1/appliances/{applianceId}/timezone` | CleanClosetInteractor | postTimezone |
-| `/api/v1/appliances/{applianceId}/timezone` | CleanClosetInteractor | postTimezone |
-| `/api/v1/appliances/{applianceId}/timezone` | CleanClosetInteractor | postTimezone |
 | `/api/v1/appliances/{applianceId}/timezone` | CleanClosetInteractor | postTimezone |
 | `/api/v1/users/me` | CleanClosetViewController | getUserInfo |
-| `/api/v1/users/me` | CleanClosetViewController | getUserInfo |
-| `/api/v1/users/me` | CleanClosetViewController | getUserInfo |
-| `/api/v1/users/me` | CleanClosetViewController | getUserInfo |
-| `/api/v1/users/me` | CleanClosetViewController | getUserInfo |
-| `/api/v1/privacy/accept` | CleanClosetInteractor | getAcceptPrivacyPolicy |
-| `/api/v1/privacy/accept` | CleanClosetInteractor | getAcceptPrivacyPolicy |
-| `/api/v1/privacy/accept` | CleanClosetInteractor | getAcceptPrivacyPolicy |
-| `/api/v1/privacy/accept` | CleanClosetInteractor | getAcceptPrivacyPolicy |
-| `/api/v1/privacy/accept` | CleanClosetInteractor | getAcceptPrivacyPolicy |
+| `/api/v1/privacy/accept` | CleanClosetViewController | getAcceptPrivacyPolicy |
 | `/api/v1/models/{modelNumber}/validation` | CleanClosetInteractor | getModelValidation |
-| `/api/v1/models/{modelNumber}/validation` | CleanClosetInteractor | getModelValidation |
-| `/api/v1/models/{modelNumber}/validation` | CleanClosetInteractor | getModelValidation |
-| `/api/v1/models/{modelNumber}/validation` | CleanClosetInteractor | getModelValidation |
-| `/api/v1/models/{modelNumber}/validation` | CleanClosetInteractor | getModelValidation |
-| `/api/v1/appliances/{applianceId}/nickname` | CleanClosetInteractor | getNickname |
-| `/api/v1/appliances/{applianceId}/nickname` | CleanClosetInteractor | getNickname |
-| `/api/v1/appliances/{applianceId}/nickname` | CleanClosetInteractor | getNickname |
-| `/api/v1/appliances/{applianceId}/nickname` | CleanClosetInteractor | getNickname |
-| `/api/v1/appliances/{applianceId}/nickname` | CleanClosetInteractor | getNickname |
+| `/api/v1/appliances/{applianceId}/nickname` | StatusCard | getNickname |
 | `/api/v1/appliances/{applianceId}/preferences` | CleanClosetInteractor | getPreferences |
-| `/api/v1/appliances/{applianceId}/preferences` | CleanClosetInteractor | getPreferences |
-| `/api/v1/appliances/{applianceId}/preferences` | CleanClosetInteractor | getPreferences |
-| `/api/v1/appliances/{applianceId}/preferences` | CleanClosetInteractor | getPreferences |
-| `/api/v1/appliances/{applianceId}/preferences` | CleanClosetInteractor | getPreferences |
-| `/api/v1/appliances/{applianceId}/features` | CleanClosetCardStatus | Support Clean Closet Status functionality |
-| `/api/v1/appliances/{applianceId}/features` | CleanClosetCycleCard | Support Clean Closet Cycle functionality |
-| `/api/v1/appliances/{applianceId}/features` | CleanClosetNightCareCard | Support Clean Closet Night Care functionality |
-| `/api/v1/appliances/{applianceId}/features` | CleanClosetWaterTankStatusCard | Support Clean Closet Water Tank Status functionality |
-| `/api/v1/appliances/{applianceId}/features` | CleanClosetDrainTankStatusCard | Support Clean Closet Drain Tank Status functionality |
-| `/api/v1/appliances/{applianceId}/metadata` | CleanClosetInteractor | getApplianceMetaData |
-| `/api/v1/appliances/{applianceId}/metadata` | CleanClosetInteractor | getApplianceMetaData |
-| `/api/v1/appliances/{applianceId}/metadata` | CleanClosetInteractor | getApplianceMetaData |
-| `/api/v1/appliances/{applianceId}/metadata` | CleanClosetInteractor | getApplianceMetaData |
-| `/api/v1/appliances/{applianceId}/metadata` | CleanClosetInteractor | getApplianceMetaData |
-| `/api/v1/laundry/appliances/{applianceId}/metadata` | CleanClosetInteractor | getMetadata |
-| `/api/v1/laundry/appliances/{applianceId}/metadata` | CleanClosetInteractor | getMetadata |
-| `/api/v1/laundry/appliances/{applianceId}/metadata` | CleanClosetInteractor | getMetadata |
-| `/api/v1/laundry/appliances/{applianceId}/metadata` | CleanClosetInteractor | getMetadata |
-| `/api/v1/laundry/appliances/{applianceId}/metadata` | CleanClosetInteractor | getMetadata |
+| `/api/v1/appliances/{applianceId}/features` | All Cards | Check feature availability for cards |
+| `/api/v1/appliances/{applianceId}/metadata` | StatusCard | getApplianceMetaData |
+| `/api/v1/laundry/appliances/{applianceId}/metadata` | StatusCard | getMetadata |
 
 
 ---
@@ -272,15 +241,12 @@ struct CycleUsageEventListEntity {
 │ applianceNameLabel             "Clean Closet" │ ← tag: 202 (UILabel)
 │ cycleStatusView                (StatusView) │ ← tag: 220 (UIView)
 │ progressBar                              │ ← tag: 251 (LinearProgressBar)
-│ timeLeftImage                            │ ← tag: 231 (UIImageView)
-│ cycleStatusImage                         │ ← tag: 221 (UIImageView)
 │ cycleStatusLabel               "Status"  │ ← tag: 222 (UILabel)
 │ cycleStatusValueLabel          "Complete" │ ← tag: 223 (UILabel)
 │ timeLeftLabel                  "Time Left" │ ← tag: 232 (UILabel)
 │ timeLeftValueLabel             "--:--"   │ ← tag: 233 (UILabel)
 │ finishTimeLabel                "Finished" │ ← tag: 242 (UILabel)
 │ finishTimeValueLabel           "--:--"   │ ← tag: 243 (UILabel)
-│ finishTimeImage                          │ ← tag: 241 (UIImageView)
 │ statusCardCollapseImage                  │ ← tag: 201 (UIImageView)
 │ applianceImageView             (ApplianceImage) │ ← tag: 210 (UIImageView)
 │ cardContents                   (StatusView) │ ← tag: 203 (UIView)
@@ -303,39 +269,29 @@ struct CycleUsageEventListEntity {
 | `cardContents` | 203 | Container for the card contents |
 | `applianceImageView` | 210 | Image view for the appliance |
 | `cycleStatusView` | 220 | View containing cycle status information |
-| `cycleStatusImage` | 221 | Image for the cycle status |
 | `cycleStatusLabel` | 222 | Label for the cycle status |
-| `cycleStatusValueLabel` | 223 | Value label for the cycle status |
+| `cycleStatusValueLabel` | 223 | Label displaying the cycle status value |
 | `timeLeftView` | 230 | View containing time left information |
-| `timeLeftImage` | 231 | Image for the time left |
 | `timeLeftLabel` | 232 | Label for the time left |
-| `timeLeftValueLabel` | 233 | Value label for the time left |
+| `timeLeftValueLabel` | 233 | Label displaying the time left value |
 | `finishTimeView` | 240 | View containing finish time information |
-| `finishTimeImage` | 241 | Image for the finish time |
 | `finishTimeLabel` | 242 | Label for the finish time |
-| `finishTimeValueLabel` | 243 | Value label for the finish time |
+| `finishTimeValueLabel` | 243 | Label displaying the finish time value |
 | `progressView` | 250 | View containing the progress bar |
-| `progressBar` | 251 | Progress bar |
+| `progressBar` | 251 | Progress bar indicating cycle progress |
 
 ### Behavior
-- Sets appliance name label text to Constants.FABRIC_CARE_CLOSET
-- Adds tap gesture recognizer to statusCardCollapseButton to call onTapStatusCardCollapse
-- Sets cycleStatusLabel text to Constants.STATUS
-- Sets timeLeftLabel text to Constants.TIME_LEFT
-- Sets finishTimeLabel text to Constants.FINISHED
-- Toggles visibility of cardContents on onTapStatusCardCollapse
-- Rotates statusCardCollapseImage on onTapStatusCardCollapse
-- Updates cycleStatusValueLabel with LaundryErdConvertSupporterSwift.shared.getStatusText(erdValues)
-- Hides/shows finishTimeView, timeLeftView, and progressView based on machine state
-- Starts/stops progressBar animation based on machine state
-- Updates timeLeftValueLabel with LaundryErdConvertSupporterSwift.shared.convertTimeValuesToTimeLeftString(remainingTimeValues)
-- Updates finishTimeValueLabel with LaundryErdConvertSupporterSwift.shared.getEndTimeString(erdValues)
-- Updates timeLeftValueLabel with LaundryErdConvertSupporterSwift.shared.convertTimeValuesToTimeLeftString(delayStartTimeValues) if in delay mode
+- Tapping the collapse button toggles the visibility of cardContents.
+- The collapse button image rotates when the card is collapsed/expanded.
+- The cycle status, time left, and finish time labels are updated based on ERD values.
+- The progress bar animation starts/stops based on the machine state.
 
 ### ERDs Used
 | ERD | Description |
 | --- | ----------- |
 | `LAUNDRY_ERD_MACHINE_STATUS` | LAUNDRY_ERD_MACHINE_STATUS dependency |
+| `LAUNDRY_ERD_CYCLE_NAME` | LAUNDRY_ERD_CYCLE_NAME dependency |
+| `LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT` | LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT dependency |
 
 ### API Dependency
 - WebSocket-based ERD updates via `requestCache()`.
@@ -413,9 +369,8 @@ testClean Closet Status_shouldUpdate_whenERDChanges() {
 | `cycleNameLabel` | 301 | Label for the cycle name |
 
 ### Behavior
-- Sets cycleLabel text to Constants.CYCLE.uppercased()
-- Updates cycleNameLabel with cycle category and cycle name from ERD values
-- Hides the card if shouldShow is false
+- The cycle name label is updated based on ERD values.
+- The card can be hidden or shown based on a boolean value.
 
 ### ERDs Used
 | ERD | Description |
@@ -472,15 +427,13 @@ testClean Closet Cycle_shouldUpdate_whenERDChanges() {
 | Element | Tag | Description |
 | ------- | --- | ----------- |
 | `nightCarelabel` | 400 | Label for the night care feature |
-| `infoButton` | 401 | Button to show info about night care |
-| `currentState` | 402 | Label to show the current state of night care (on/off) |
+| `infoButton` | 401 | Button to display information about night care |
+| `currentState` | 402 | Label displaying the current state of night care (On/Off) |
 
 ### Behavior
-- Sets nightCarelabel text to Constants.NIGHT_CARE.uppercased()
-- Adds tap gesture recognizer to infoButton to call onTapNightCareInfo
-- Updates currentState label to Constants.ON if LAUNDRY_ERD_MACHINE_SUB_CYCLE is nightCare, otherwise sets it to Constants.OFF
-- Hides the card if shouldShow is false
-- Calls delegate?.onButtonPressed(.nightCareInfo) on onTapNightCareInfo
+- Tapping the info button calls the delegate method onButtonPressed with the .nightCareInfo button type.
+- The currentState label is updated based on the LAUNDRY_ERD_MACHINE_SUB_CYCLE ERD value.
+- The card can be hidden or shown based on a boolean value.
 
 ### ERDs Used
 | ERD | Description |
@@ -535,16 +488,15 @@ testClean Closet Night Care_shouldUpdate_whenERDChanges() {
 | Element | Tag | Description |
 | ------- | --- | ----------- |
 | `waterTankStatusLabel` | 500 | Label for the water tank status |
-| `waterTankInfoButton` | 501 | Button to show info about water tank status |
-| `currentState` | 502 | Label to show the current state of the water tank |
-| `warningLabel` | 503 | Image to show a warning about the water tank |
+| `waterTankInfoButton` | 501 | Button to display information about the water tank status |
+| `currentState` | 502 | Label displaying the current state of the water tank |
+| `warningLabel` | 503 | Image to display a warning about the water tank status |
 
 ### Behavior
-- Sets waterTankStatusLabel text to Constants.WATER_TANK_STATUS.uppercased()
-- Adds tap gesture recognizer to waterTankInfoButton to call onTapWaterTankStatusInfo
-- Updates currentState label to Constants.FILL_TANK and shows warning if tank needs filling, otherwise sets it to Constants.OK and hides warning
-- Hides the card if shouldShow is false
-- Calls delegate?.onButtonPressed(.waterTankStatusInfo) on onTapWaterTankStatusInfo
+- Tapping the info button calls the delegate method onButtonPressed with the .waterTankStatusInfo button type.
+- The currentState label is updated based on the LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS ERD value.
+- The card can be hidden or shown based on a boolean value.
+- The info button and warning label are hidden or shown based on the LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS ERD value.
 
 ### ERDs Used
 | ERD | Description |
@@ -606,16 +558,15 @@ testClean Closet Water Tank Status_shouldUpdate_whenERDChanges() {
 | Element | Tag | Description |
 | ------- | --- | ----------- |
 | `drainTankStatusLabel` | 600 | Label for the drain tank status |
-| `drainTankInfoButton` | 601 | Button to show info about drain tank status |
-| `currentState` | 602 | Label to show the current state of the drain tank |
-| `warningLabel` | 603 | Image to show a warning about the drain tank |
+| `drainTankInfoButton` | 601 | Button to display information about the drain tank status |
+| `currentState` | 602 | Label displaying the current state of the drain tank |
+| `warningLabel` | 603 | Image to display a warning about the drain tank status |
 
 ### Behavior
-- Sets drainTankStatusLabel text to Constants.DRAIN_TANK_STATUS.uppercased()
-- Adds tap gesture recognizer to drainTankInfoButton to call onTapDrainTankStatusInfo
-- Updates currentState label to Constants.EMPTY_TANK and shows warning if tank needs emptying, otherwise sets it to Constants.OK and hides warning
-- Hides the card if shouldShow is false
-- Calls delegate?.onButtonPressed(.drainTankStatusInfo) on onTapDrainTankStatusInfo
+- Tapping the info button calls the delegate method onButtonPressed with the .drainTankStatusInfo button type.
+- The currentState label is updated based on the LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS ERD value.
+- The card can be hidden or shown based on a boolean value.
+- The info button and warning label are hidden or shown based on the LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS ERD value.
 
 ### ERDs Used
 | ERD | Description |
@@ -663,23 +614,51 @@ testClean Closet Drain Tank Status_shouldUpdate_whenERDChanges() {
 
 | ERD Name | Code Constant | Type | Description | UI Behavior |
 | -------- | ------------- | ---- | ----------- | ----------- |
-| Machine Sub Cycle | `LAUNDRY_ERD_MACHINE_SUB_CYCLE` | String | Machine Sub Cycle value | Used for machine sub cycle display |
-| Clean Closet Tank Status | `LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS` | Enum | Machine status values | Controls UI state and visibility |
-| Cycle Name | `LAUNDRY_ERD_CYCLE_NAME` | String | Cycle Name value | Used for cycle name display |
-| Machine Status | `LAUNDRY_ERD_MACHINE_STATUS` | Enum | Machine status values | Controls UI state and visibility |
-| Cycle Function Current | `LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT` | String | Cycle Function Current value | Used for cycle function current display |
+| Cycle Function Current | `LAUNDRY_ERD_CYCLE_FUNCTION_CURRENT` | String | Cycle category code prefix for display formatting | Used to construct full cycle display name |
+| Appliance Available Version | `LAUNDRY_ERD_APPLIANCE_AVAILABLE_VERSION` | String | Appliance Available Version configuration value | Used for appliance available version display and control |
+| End Time | `LAUNDRY_ERD_END_TIME` | Integer | Expected cycle completion time | Displayed in finishTimeValueLabel as HH:MM AM/PM |
+| Water Level | `LAUNDRY_ERD_WATER_LEVEL` | Integer | Water level setting or sensor reading | May affect cycle display and tank warnings |
+| Door Status | `LAUNDRY_ERD_DOOR_STATUS` | Enum | Status enumeration values | Controls UI state and visibility |
+| Machine Status | `LAUNDRY_ERD_MACHINE_STATUS` | Enum | Machine operational status (idle, running, paused, complete) | Controls progress bar, time visibility, and card states |
+| Machine Sub Cycle | `LAUNDRY_ERD_MACHINE_SUB_CYCLE` | String | Cycle-related configuration | Used for cycle display and control |
+| Clean Closet Tank Status | `LAUNDRY_ERD_CLEAN_CLOSET_TANK_STATUS` | Enum | Tank status bit flags (water/drain tank levels) | Controls warning icons, colors, and info buttons |
+| Time Remaining | `LAUNDRY_ERD_TIME_REMAINING` | Integer | Time remaining in current cycle (minutes) | Displayed in timeLeftValueLabel with countdown |
+| Cycle Progress | `LAUNDRY_ERD_CYCLE_PROGRESS` | String | Current cycle progress percentage | Controls progress bar fill level |
+| Cycle Name | `LAUNDRY_ERD_CYCLE_NAME` | String | Current selected cycle name (Normal, Delicate, etc.) | Displayed in CycleCard cycleNameLabel |
+| Temperature | `LAUNDRY_ERD_TEMPERATURE` | Integer | Water temperature setting or current temperature | May be displayed in cycle details or settings |
+| Spin Speed | `LAUNDRY_ERD_SPIN_SPEED` | Integer | Spin speed setting (RPM) | May be displayed in cycle configuration |
+| Delay Time Remaining | `LAUNDRY_ERD_DELAY_TIME_REMAINING` | Integer | Time remaining in current cycle (minutes) | Displayed in timeLeftValueLabel with countdown |
+| Acm Available Version | `LAUNDRY_ERD_ACM_AVAILABLE_VERSION` | String | Acm Available Version configuration value | Used for acm available version display and control |
 
 
 ---
 
 ## 💬 Popup Display Logic
 
-Based on actual delegate implementations found in code.
+
+| Popup Type | Trigger Condition | Handler Location |
+| ---------- | ----------------- | ---------------- |
+| `PrivacyPolicyPopup` | User info API returns `termsConnectedAccepted == false` | `presenter.didUserAcceptedPrivacyPolicy(false)` → `view.showPrivacyPolicyPopup()` |
+| `NightCareInfoPopup` | NightCareCard info icon tapped | `onButtonPressed(.nightCareInfo)` → `presenter.onPressedNightCareInfoButton()` |
+| `WaterTankStatusInfoPopup` | WaterTankCard info icon tapped | `onButtonPressed(.waterTankStatusInfo)` → `presenter.onPressedWaterTankStatusInfoButton()` |
+| `DrainTankStatusInfoPopup` | DrainTankCard info icon tapped | `onButtonPressed(.drainTankStatusInfo)` → `presenter.onPressedDrainTankStatusInfoButton()` |
+| `WebSocketTimeoutPopup` | WebSocket disconnects or times out | `showPopup(webSocketPopupType: .WebSocketTimeOutPopup)` |
+| `WebSocketNetworkErrorPopup` | Network error during WebSocket communication | `showPopup(webSocketPopupType: .WebSocketNetworkErrorPopup)` |
+| `OTACheckPopup` | OTA status change / update available | `presenter.showPopup(otaPopupType:)` |
+| `ModelValidationPopup` | Model validation fails | `wireframe.presentValidateModelScreen()` |
+
 
 ---
 
 ## 🔄 Update Flow
-Based on actual WebSocket and ERD update patterns found in the code.
+
+
+1. **ViewController Initialization**: `viewDidLoad()` sets up cards and delegates
+2. **WebSocket Connection**: `viewWillAppear()` calls `presenter.viewWillAppear()` → `interactor.bindWebSocketService()`
+3. **ERD Updates**: WebSocket receives data → `interactor.erdsReceived()` → `presenter.updateCards()`
+4. **Card Updates**: Each card's `update(erdValues:)` method processes ERD changes
+5. **UI Rendering**: Cards update their UI elements based on new ERD values
+
 
 ---
 
